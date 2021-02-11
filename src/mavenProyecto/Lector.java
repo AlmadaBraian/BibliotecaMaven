@@ -63,6 +63,10 @@ public class Lector{
 		
 	}
 	
+	public void agregarPrestamo(Prestamo p) {
+		this.prestamos.add(p);
+	}
+	
 	public boolean prestar(int id, Date fechaAct){
 		
 		if (this.multa == null){

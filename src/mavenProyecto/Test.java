@@ -14,36 +14,43 @@ public class Test {
 		Date pas = dateFormat.parse("10-01-2021");
 		Date nacimiento = dateFormat.parse("10-01-1993");
 		
-		Lector l = new Lector(518, "Braian Almada", "47369502", "Darragueira 5840");
-		Lector l2 = new Lector(518, "Braian Almada", "47369502", "Darragueira 5840");
+		Lector l = new Lector(518, "Bartolo Gim,enez", "47369502", "Darragueira 5840");
+		Lector l2 = new Lector(519, "Braian Almada", "47369502", "Darragueira 5840");
 		
 		Biblioteca<Copia> b = new Biblioteca<Copia>();
 		
-		b.push(new Copia("Arturo Puig", "Frances", nacimiento, "Frutos de su tiempo", LibroTipo.ENSAYO, 2005, "Editorial Planeta",15));
-		b.push(new Copia("Arturo Puig", "Frances", nacimiento, "Frutos de su tiempo", LibroTipo.ENSAYO, 2005, "Editorial Planeta",16));
-		b.push(new Copia("Arturo Puig", "Frances", nacimiento, "Frutos de su tiempo", LibroTipo.ENSAYO, 2005, "Editorial Planeta",17));
-		b.push(new Copia("Marito Baracus", "Argentino", dateFormat.parse("12-11-1983"), "Alquilando fulanitos", LibroTipo.NOVELA, 1993, "Editorial Planeta",18));
-		b.push(new Copia("Marito Baracus", "Argentino", dateFormat.parse("12-11-1983"), "Alquilando fulanitos", LibroTipo.NOVELA, 1993, "Editorial Planeta",19));
-		b.push(new Copia("Marito Baracus", "Argentino", dateFormat.parse("12-11-1983"), "Alquilando fulanitos", LibroTipo.NOVELA, 1993, "Editorial Planeta",20));
-		b.push(new Copia("Stephen King Puig", "Estadounidense", dateFormat.parse("21-9-1947"), "El resplandor", LibroTipo.NOVELA, 1977, "Editorial Vintage ",21));
-		b.push(new Copia("Stephen King Puig", "Estadounidense", dateFormat.parse("21-9-1947"), "El resplandor", LibroTipo.NOVELA, 1977, "Editorial Vintage ",22));
-		b.push(new Copia("Stephen King Puig", "Estadounidense", dateFormat.parse("21-9-1947"), "El resplandor", LibroTipo.NOVELA, 1977, "Editorial Vintage ",23));
-		b.push(new Copia("Katsuhiro Ôtomo", "Japones", dateFormat.parse("14-04-1954"), "Akira tomo 1", LibroTipo.NOVELA, 1982, "Editorial Ivrea",24));
-		b.push(new Copia("Katsuhiro Ôtomo", "Japones", dateFormat.parse("14-04-1954"), "Akira tomo 1", LibroTipo.NOVELA, 1982, "Editorial Ivrea",25));
-		b.push(new Copia("Katsuhiro Ôtomo", "Japones", dateFormat.parse("14-04-1954"), "Akira tomo 1", LibroTipo.NOVELA, 1982, "Editorial Ivrea",26));
+		b.pushCopias(new Copia("Arturo Puig", "Frances", nacimiento, "Frutos de su tiempo", LibroTipo.ENSAYO, 2005, "Editorial Planeta",15));
+		b.pushCopias(new Copia("Arturo Puig", "Frances", nacimiento, "Frutos de su tiempo", LibroTipo.ENSAYO, 2005, "Editorial Planeta",16));
+		b.pushCopias(new Copia("Arturo Puig", "Frances", nacimiento, "Frutos de su tiempo", LibroTipo.ENSAYO, 2005, "Editorial Planeta",17));
+		b.pushCopias(new Copia("Marito Baracus", "Argentino", dateFormat.parse("12-11-1983"), "Alquilando fulanitos", LibroTipo.NOVELA, 1993, "Editorial Planeta",18));
+		b.pushCopias(new Copia("Marito Baracus", "Argentino", dateFormat.parse("12-11-1983"), "Alquilando fulanitos", LibroTipo.NOVELA, 1993, "Editorial Planeta",19));
+		b.pushCopias(new Copia("Marito Baracus", "Argentino", dateFormat.parse("12-11-1983"), "Alquilando fulanitos", LibroTipo.NOVELA, 1993, "Editorial Planeta",20));
+		b.pushCopias(new Copia("Stephen King Puig", "Estadounidense", dateFormat.parse("21-9-1947"), "El resplandor", LibroTipo.NOVELA, 1977, "Editorial Vintage ",21));
+		b.pushCopias(new Copia("Stephen King Puig", "Estadounidense", dateFormat.parse("21-9-1947"), "El resplandor", LibroTipo.NOVELA, 1977, "Editorial Vintage ",22));
+		b.pushCopias(new Copia("Stephen King Puig", "Estadounidense", dateFormat.parse("21-9-1947"), "El resplandor", LibroTipo.NOVELA, 1977, "Editorial Vintage ",23));
+		b.pushCopias(new Copia("Katsuhiro Ôtomo", "Japones", dateFormat.parse("14-04-1954"), "Akira tomo 1", LibroTipo.NOVELA, 1982, "Editorial Ivrea",24));
+		b.pushCopias(new Copia("Katsuhiro Ôtomo", "Japones", dateFormat.parse("14-04-1954"), "Akira tomo 1", LibroTipo.NOVELA, 1982, "Editorial Ivrea",25));
+		b.pushCopias(new Copia("Katsuhiro Ôtomo", "Japones", dateFormat.parse("14-04-1954"), "Akira tomo 1", LibroTipo.NOVELA, 1982, "Editorial Ivrea",26));
 		
+		b.pushLectores(l);
+		b.pushLectores(l2);
 		//b.stock();
 		
-		b.alquilar(l,26);
-		b.alquilar(l,15);
-		b.alquilar(l,16);
+		b.alquilar(l.getnSocio(),26);
+		b.alquilar(l.getnSocio(),15);
+		b.alquilar(l.getnSocio(),16);
 		
-		b.alquilar(l2,26);
-		b.alquilar(l2,17);
+		b.alquilar(l2.getnSocio(),25);
+		b.alquilar(l2.getnSocio(),17);
+
 		
+		System.out.println(b.stockString());
+
+		b.regresar(l.getnSocio(), 26);
 		
+		System.out.println("\n");
 		
-		b.stockString();
+		System.out.println(b.stockString());
 		
 		
 		

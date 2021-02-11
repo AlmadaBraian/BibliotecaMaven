@@ -2,7 +2,7 @@ package mavenProyecto;
 
 import java.util.Date;
 
-public class Copia extends Libro implements Comparable<Copia>, CopiasUtil{
+public class Copia extends Libro implements Comparable<Copia>{
 
 	public Copia(String nombre, String nacionalidad, Date nacimiento, String nombre2, LibroTipo tipo, int año,
 			String editorial, int id) {

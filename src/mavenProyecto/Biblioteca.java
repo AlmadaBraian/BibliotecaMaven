@@ -11,28 +11,58 @@ import java.util.Set;
 
 public class Biblioteca <T>{
 		
-		private ArrayList<Copia> arreglo = new ArrayList<Copia>();	
+		private ArrayList<Copia> arreglo = new ArrayList<Copia>();
 		
-		public Object peek() {
+		private ArrayList<Lector> lectores = new ArrayList<Lector>();
+		
+		
+		public Object peek(ArrayList<T> arr) {
 			
-			return arreglo.get(0);
+			return arr.get(0);
 			
 		}
 		
-		public void poop() {
+		public void poopCopias(int id) {
 			
-			List lista = new ArrayList();
+			ArrayList<Copia> copias = new ArrayList<Copia>();
 			
-			for(int i=1; i< arreglo.size(); i++) {
-				
-				lista.add(arreglo.get(i));
+			Set<Integer> claves = CopiasUtil.getCopias().keySet();
+			
+			Iterator<Integer> it = claves.iterator();
+			
+			while (it.hasNext()) {
+				Integer clave = it.next();
+				Copia pe = CopiasUtil.getCopias().get(clave);
+				if (pe.getId() != id) {
+					copias.add(pe);
+				}
 			}
-			arreglo.clear();
-			arreglo.addAll(lista);
+			this.arreglo.clear();
+			this.arreglo.addAll(copias);
 			
 		}
 		
-		public void push (T e) {
+		public void poopLectores(int id) {
+			
+			ArrayList<Lector> copias = new ArrayList<Lector>();
+			
+			Set<Integer> claves = LectoresUtil.getLectores(copias).keySet();
+			
+			Iterator<Integer> it = claves.iterator();
+			
+			while (it.hasNext()) {
+				Integer clave = it.next();
+				Lector pe = LectoresUtil.getLectores(copias).get(clave);
+				if (pe.getnSocio() != id) {
+					copias.add(pe);
+				}
+			}
+			this.lectores.clear();
+			this.lectores.addAll(copias);
+			
+		}
+		
+		public void pushCopias (T e) {
 			List lista = new ArrayList();
 			for(Object o:arreglo)  {
 				lista.add(o);
@@ -41,6 +71,23 @@ public class Biblioteca <T>{
 			arreglo.clear();
 			arreglo.addAll(lista);
 			
+		}
+		public void pushLectores (Lector e) {
+			
+			ArrayList<Lector> tmp = new ArrayList<Lector>();
+			
+			Set<Integer> claves = LectoresUtil.getLectores(lectores).keySet();
+			
+			Iterator<Integer> it = claves.iterator();
+			
+			while (it.hasNext()) {
+				Integer clave = it.next();
+				Lector pe = LectoresUtil.getLectores(lectores).get(clave);
+				tmp.add(pe);
+			}
+			tmp.add(e);
+			this.lectores.clear();
+			this.lectores.addAll(tmp);
 		}
 		
 		public void reverse() {
@@ -52,33 +99,19 @@ public class Biblioteca <T>{
 			arreglo.addAll(lista);
 			
 		}
-
-		@Override
-		public String toString() {
-
-			return "Libros [arreglo=" + this.arreglo+ "]";
-		}
-		
-		void printCollection(Collection<?> c) {
-			
-		    for (Object e : c) {
-		        System.out.println(e);
-		    }
-		}
 		
 		
-		
-		public void stockString(){
-			
+		public String stockString(){
+			String s="";
 			Map<Integer, Copia> lista2 = CopiasUtil.getCopias(this.arreglo);
 			Set<Integer> claves = lista2.keySet();
 			Iterator<Integer> it = claves.iterator();
 			while (it.hasNext()) {
 				Integer clave = it.next();
 				Copia pe = lista2.get(clave);
-				System.out.printf("Copia: Id: " + clave +" " + pe.toString());
-				System.out.println("\n");
+				s+= "Copia: Id: " + clave +" " + pe.toString() + "\n";
 			}
+			return s;
 			
 		}
 		
@@ -122,10 +155,23 @@ public class Biblioteca <T>{
 			}
 			return null;
 		}
-
-		public int compareTo(Lector o) {
-			return 0;
+		
+		public Lector obtenerLector(int id) {
 			
+			Map<Integer, Lector> lista2 = LectoresUtil.getLectores(this.lectores);
+			
+			Set<Integer> claves = lista2.keySet();
+			
+			Iterator<Integer> it = claves.iterator();
+			
+			while (it.hasNext()) {
+				Integer clave = it.next();
+				Lector pe = lista2.get(clave);
+				if (pe.getnSocio() == id) {
+					return pe;
+				}
+			}
+			return null;
 		}
 		
 		public ArrayList<Copia> stock(){
@@ -144,17 +190,18 @@ public class Biblioteca <T>{
 			
 		}
 		
-		public void alquilar(Lector a, int id) {
-			
+		public void alquilar(int idLector, int id) throws ParseException {
+			Lector a = obtenerLector(idLector);
 			if(a.prestar(id, new Date())) {
+				a.agregarPrestamo(new Prestamo(obtenerCopia(id)));
 				modEstadoCopia(id, estadoCopia.PRESTADO);
 			}
 		}
 		
-		public void regresar (Lector a, int id) throws ParseException {
+		public void regresar (int idLector, int id) throws ParseException {
+			Lector a = obtenerLector(idLector);
 			a.devolver (id, new Date());
-			modEstadoCopia(id, estadoCopia.BIBLIOTECA);
-			
+			modEstadoCopia(id, estadoCopia.BIBLIOTECA);	
 		}
 		
 		
