@@ -51,21 +51,32 @@ public class Lector{
 		this.direccion = direccion;
 	}
 	
+	public ArrayList<Prestamo> getPrestamos() {
+		
+		return this.prestamos;
+	}
+	
+	public Multa getMulta() {
+		return multa;
+	}
+	
 	public void devolver (int id, Date fechaAct) throws ParseException{
 		
 		Prestamo p = obtenerPrestamo(id);
 		
-		if (p.diasDif()>0) {
-			multar(p.diasDif()*2);
+		if (p.diasDif(fechaAct)>0) {
+			multar(p.diasDif(fechaAct)*2);
 		}
 		
 		borrarPrestamo(id);
 		
 	}
 	
+	
 	public void agregarPrestamo(Prestamo p) {
 		this.prestamos.add(p);
 	}
+	
 	
 	public boolean prestar(int id, Date fechaAct){
 		
@@ -166,6 +177,5 @@ public class Lector{
 		this.prestamos.clear();
 		this.prestamos.addAll(lista);
 	}
-	
 	
 }

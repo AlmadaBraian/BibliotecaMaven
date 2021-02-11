@@ -2,6 +2,7 @@ package mavenProyecto;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
@@ -11,10 +12,10 @@ public class Test {
 		// TODO Auto-generated method stub
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		
-		Date pas = dateFormat.parse("10-01-2021");
+		Date pas = dateFormat.parse("15-03-2021");
 		Date nacimiento = dateFormat.parse("10-01-1993");
 		
-		Lector l = new Lector(518, "Bartolo Gim,enez", "47369502", "Darragueira 5840");
+		Lector l = new Lector(518, "Bartolo Gimenez", "47369502", "Darragueira 5840");
 		Lector l2 = new Lector(519, "Braian Almada", "47369502", "Darragueira 5840");
 		
 		Biblioteca<Copia> b = new Biblioteca<Copia>();
@@ -45,16 +46,31 @@ public class Test {
 
 		
 		System.out.println(b.stockString());
+		
+		Lector tmp = b.obtenerLector(l.getnSocio()); 
+		
+		ArrayList<Prestamo> prestamos = tmp.getPrestamos();
+		
+		for(Prestamo p : prestamos) {
+			System.out.println(p.toString());
+		}
 
-		b.regresar(l.getnSocio(), 26);
+		b.regresar(l.getnSocio(), 26, pas);
 		
 		System.out.println("\n");
 		
 		System.out.println(b.stockString());
 		
+		System.out.println(tmp.getMulta().getfFin());
 		
+		System.out.println("\n");
 		
+		b.alquilar(tmp.getnSocio(),18);
 		
+		System.out.println("\n");
+		
+		System.out.println(b.stockString());
+	
 	}
 
 }

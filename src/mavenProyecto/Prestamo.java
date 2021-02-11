@@ -97,6 +97,14 @@ public class Prestamo{
 	 }
 
 
+	@Override
+	public String toString() {
+		return "Prestamo [inicio=" + dateFormat.format(inicio) + ", fin=" + dateFormat.format(fin) + ", copia=" + copia + "]";
+	}
+	 
+	 
+
+
 	
 
 }

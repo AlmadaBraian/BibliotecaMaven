@@ -1,6 +1,7 @@
 package mavenProyecto;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -174,6 +175,11 @@ public class Biblioteca <T>{
 			return null;
 		}
 		
+		public Multa obtenerMUltaLector (int id) {
+			Lector l = obtenerLector(id);
+			return l.getMulta();
+		}
+		
 		public ArrayList<Copia> stock(){
 			
 			Map<Integer, Copia> lista2 = CopiasUtil.getCopias(this.arreglo);
@@ -196,11 +202,15 @@ public class Biblioteca <T>{
 				a.agregarPrestamo(new Prestamo(obtenerCopia(id)));
 				modEstadoCopia(id, estadoCopia.PRESTADO);
 			}
+			else if (a.getMulta() != null){
+				SimpleDateFormat dateFormat = a.getMulta().dateFormat;
+				System.out.println("El lector "+a.getNombre() + " no podra retirar libros hasta el " + dateFormat.format(a.getMulta().getfFin()));
+			}
 		}
 		
-		public void regresar (int idLector, int id) throws ParseException {
+		public void regresar (int idLector, int id, Date fecha) throws ParseException {
 			Lector a = obtenerLector(idLector);
-			a.devolver (id, new Date());
+			a.devolver (id, fecha);
 			modEstadoCopia(id, estadoCopia.BIBLIOTECA);	
 		}
 		
