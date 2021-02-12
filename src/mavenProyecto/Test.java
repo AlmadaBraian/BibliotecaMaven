@@ -54,13 +54,11 @@ public class Test {
 			System.out.println(p.toString());
 		}
 
-		b.regresar(l.getnSocio(), 0, pas);
+		b.regresar(l.getnSocio(), 2, pas);
 		
 		System.out.println("\n");
 		
 		System.out.println(b.stockString());
-		
-		System.out.println(tmp.getMulta().getfFin());
 		
 		System.out.println("\n");
 		

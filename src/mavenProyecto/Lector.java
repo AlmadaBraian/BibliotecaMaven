@@ -59,14 +59,18 @@ public class Lector{
 	}
 	
 	public void devolver (int id, Date fechaAct) throws ParseException{
-		
-		Prestamo p = obtenerPrestamo(id);
-		
-		if (p.diasDif(fechaAct)>0) {
-			multar(p.diasDif(fechaAct)*2);
+		try {
+			Prestamo p = obtenerPrestamo(id);
+			
+			if (p.diasDif(fechaAct)>0) {
+				multar(p.diasDif(fechaAct)*2);
+			}
+			
+			borrarPrestamo(id);
+			
+		} catch (NullPointerException e) {
+			System.out.println(e);
 		}
-		
-		borrarPrestamo(id);
 		
 	}
 	
@@ -137,9 +141,16 @@ public class Lector{
 	}
 	
 	public Prestamo obtenerPrestamo(int index) {
+		try {			
+			Prestamo p = prestamos.get(index);
+			return p;
+		} catch (IndexOutOfBoundsException e) {
+			
+			System.out.println(e);
+			return null;
+		}
 		
-		Prestamo p = prestamos.get(index);
-		return p;
+		
 	}
 	
 	public void  borrarPrestamo(int index) {
