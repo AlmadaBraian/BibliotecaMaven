@@ -6,18 +6,22 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class Multa {
+public class Multa extends Lector{
 	
 	private Date fInicio;
 	private Date fFin;
 	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	
-	public Multa(Date fInicio, Date fFin) throws ParseException{
+	
 
+	public Multa(Lector l, Date fInicio, Date fFin) {
+		super(l.getnSocio(), l.getNombre(), l.getTelefono(), l.getDireccion());
 		this.fInicio = fInicio;
-		this.fFin= fFin;
+		this.fFin = fFin;
 	}
-	public Multa(Date fInicio, int dias) throws ParseException {
+
+	public Multa(Lector l,Date fInicio, int dias) throws ParseException {
+		super(l.getnSocio(), l.getNombre(), l.getTelefono(), l.getDireccion());
 		this.fInicio = fInicio;
 		this.fFin = sumarDiasFecha(fInicio, dias);
 	}
@@ -52,6 +56,11 @@ public class Multa {
 	      String tmp = dateFormat.format(calendar.getTime());  
 	      return dateFormat.parse(tmp);
 	 }
+
+	@Override
+	public String toString() {
+		return "Multa [fInicio=" + fInicio + ", fFin=" + fFin + "]";
+	}
 	
 
 }

@@ -21,6 +21,7 @@ public class Lector{
 		this.nombre = nombre;
 		this.telefono = telefono;
 		this.direccion = direccion;
+		this.multa = null;
 	}
 
 
@@ -80,11 +81,11 @@ public class Lector{
 	}
 	
 	
-	public boolean prestar(int id, Date fechaAct){
+	public boolean prestar(Date fechaAct){
 		
 		if (this.multa == null){
 			
-			if (prestamos.size()<2) {
+			if (prestamos.size()<3) {
 				return true;
 				
 			}
@@ -95,7 +96,7 @@ public class Lector{
 	
 	private void multar(int dias) throws ParseException {
 		
-		this.multa = new Multa(new Date(), dias);
+		this.multa = new Multa(this,new Date(), dias);
 	}
 	
 

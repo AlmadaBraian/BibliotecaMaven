@@ -5,10 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import Excepciones.LectorExcedeAlquileresException;
+import Excepciones.LectorIdException;
+import Excepciones.LectorMultaException;
+
 public class Test {
 
-	public static void main(String[] args) throws ParseException {
-		// TODO Auto-generated method stub
+	public static void main(String[] args) throws ParseException, LectorMultaException, LectorIdException, LectorExcedeAlquileresException {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		
 		Date pas = dateFormat.parse("15-03-2021");
@@ -54,7 +57,9 @@ public class Test {
 			System.out.println(p.toString());
 		}
 
-		b.regresar(l.getnSocio(), 2, pas);
+		b.regresar(tmp.getnSocio(), 1, pas);
+		
+		System.out.println(b.obtenerMultaLector(tmp.getnSocio()));
 		
 		System.out.println("\n");
 		

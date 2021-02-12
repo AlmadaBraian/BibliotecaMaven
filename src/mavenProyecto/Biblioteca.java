@@ -7,18 +7,15 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import Excepciones.LectorExcedeAlquileresException;
+import Excepciones.LectorIdException;
+import Excepciones.LectorMultaException;
+
 public class Biblioteca <T>{
 		
 		private ArrayList<Copia> arreglo = new ArrayList<Copia>();
 		
 		private ArrayList<Lector> lectores = new ArrayList<Lector>();
-		
-		
-		public Object peek(ArrayList<T> arr) {
-			
-			return arr.get(0);
-			
-		}
 		
 		public void poopCopias(int id) {
 			
@@ -129,22 +126,29 @@ public class Biblioteca <T>{
 			return null;
 		}
 		
-		public Lector obtenerLector(int id) {
-			
-			Iterator<Lector> it = lectores.iterator();
-			
-			while (it.hasNext()) {
-				Lector pe = it.next();
-				if (pe.getnSocio() == id) {
-					return pe;
-				}
+		public Lector obtenerLector(int id) throws LectorIdException{
+			try {
+				Iterator<Lector> it = lectores.iterator();
+				
+				while (it.hasNext()) {
+					Lector pe = it.next();
+					if (pe.getnSocio() == id) {
+						return pe;
+					}
+				}throw new LectorIdException("Id de lector inexistente");
+			} catch (LectorIdException e) {
+				System.out.println(e);
+				return null;
 			}
-			return null;
+			
+			
 		}
 		
-		public Multa obtenerMUltaLector (int id) {
+		public Multa obtenerMultaLector (int id) throws LectorIdException {
+			
 			Lector l = obtenerLector(id);
 			return l.getMulta();
+			
 		}
 		
 		public ArrayList<Copia> stock(){
@@ -161,32 +165,38 @@ public class Biblioteca <T>{
 			
 		}
 		
-		public void alquilar(int idLector, int id) throws ParseException {
+		public void alquilar(int idLector, int id) throws ParseException, LectorMultaException, LectorIdException, LectorExcedeAlquileresException {
 			
 			Lector a = obtenerLector(idLector);
-			
-			if(a.prestar(id, new Date())) {
-				a.agregarPrestamo(new Prestamo(obtenerCopia(id)));
-				modEstadoCopia(id, estadoCopia.PRESTADO);
-			}else {
-				try {
+			if (a != null) {
+				if(a.prestar(new Date())) {
 					
-					if (a.getMulta() != null){
-						SimpleDateFormat dateFormat = a.getMulta().dateFormat;
-						throw new RuntimeException("El lector "+a.getNombre() + " no podra retirar libros hasta el " + dateFormat.format(a.getMulta().getfFin()));
-					}
+					a.agregarPrestamo(new Prestamo(obtenerCopia(id)));
+					modEstadoCopia(id, estadoCopia.PRESTADO);
 					
-				} catch (RuntimeException e) {
-					System.out.println(e);
-				} 
-			}
+				}else if (a.getPrestamos().size()>=3){
+					
+					throw new LectorExcedeAlquileresException("El lector "+ a.getNombre() + " ah excedido el maximo de alquileres");
+					
+				}else if (a.getMulta() != null){
+					
+					SimpleDateFormat dateFormat = a.getMulta().dateFormat;
+					throw new LectorMultaException("El lector "+a.getNombre() + " no podra retirar libros hasta el " + dateFormat.format(a.getMulta().getfFin()));
+				}
 
+			}
+			
 		}
 		
-		public void regresar (int idLector, int id, Date fecha) throws ParseException {
-			Lector a = obtenerLector(idLector);
-			a.devolver (id, fecha);
-			modEstadoCopia(id, estadoCopia.BIBLIOTECA);	
+		public void regresar (int idLector, int id, Date fecha) throws ParseException, LectorIdException, NullPointerException{
+			try {
+				Lector a = obtenerLector(idLector);
+				a.devolver (id, fecha);
+				modEstadoCopia(id, estadoCopia.BIBLIOTECA);
+			} catch (NullPointerException e) {
+				System.out.println(e);
+			}
+
 		}
 		
 		
