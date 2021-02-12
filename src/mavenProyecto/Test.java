@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 
 public class Test {
 
@@ -55,7 +54,7 @@ public class Test {
 			System.out.println(p.toString());
 		}
 
-		b.regresar(l.getnSocio(), 26, pas);
+		b.regresar(l.getnSocio(), 0, pas);
 		
 		System.out.println("\n");
 		

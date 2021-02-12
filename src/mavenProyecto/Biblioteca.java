@@ -3,12 +3,9 @@ package mavenProyecto;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class Biblioteca <T>{
 		
@@ -26,14 +23,12 @@ public class Biblioteca <T>{
 		public void poopCopias(int id) {
 			
 			ArrayList<Copia> copias = new ArrayList<Copia>();
-			
-			Set<Integer> claves = CopiasUtil.getCopias().keySet();
-			
-			Iterator<Integer> it = claves.iterator();
+
+			Iterator<Copia> it = arreglo.iterator();
 			
 			while (it.hasNext()) {
-				Integer clave = it.next();
-				Copia pe = CopiasUtil.getCopias().get(clave);
+				Copia pe = it.next();
+
 				if (pe.getId() != id) {
 					copias.add(pe);
 				}
@@ -47,13 +42,11 @@ public class Biblioteca <T>{
 			
 			ArrayList<Lector> copias = new ArrayList<Lector>();
 			
-			Set<Integer> claves = LectoresUtil.getLectores(copias).keySet();
-			
-			Iterator<Integer> it = claves.iterator();
+			Iterator<Lector> it = lectores.iterator();
 			
 			while (it.hasNext()) {
-				Integer clave = it.next();
-				Lector pe = LectoresUtil.getLectores(copias).get(clave);
+				Lector pe = it.next();
+				
 				if (pe.getnSocio() != id) {
 					copias.add(pe);
 				}
@@ -63,27 +56,27 @@ public class Biblioteca <T>{
 			
 		}
 		
-		public void pushCopias (T e) {
-			List lista = new ArrayList();
-			for(Object o:arreglo)  {
-				lista.add(o);
-			}
-			lista.add(e);
-			arreglo.clear();
-			arreglo.addAll(lista);
+		public void pushCopias (Copia e) {
+			ArrayList<Copia> tmp = new ArrayList<Copia>();
 			
+			Iterator<Copia> it = arreglo.iterator();
+			
+			while (it.hasNext()) {
+				Copia pe = it.next();
+				tmp.add(pe);
+			}
+			tmp.add(e);
+			this.arreglo.clear();
+			this.arreglo.addAll(tmp);
 		}
 		public void pushLectores (Lector e) {
 			
 			ArrayList<Lector> tmp = new ArrayList<Lector>();
 			
-			Set<Integer> claves = LectoresUtil.getLectores(lectores).keySet();
-			
-			Iterator<Integer> it = claves.iterator();
+			Iterator<Lector> it = lectores.iterator();
 			
 			while (it.hasNext()) {
-				Integer clave = it.next();
-				Lector pe = LectoresUtil.getLectores(lectores).get(clave);
+				Lector pe = it.next();
 				tmp.add(pe);
 			}
 			tmp.add(e);
@@ -91,26 +84,15 @@ public class Biblioteca <T>{
 			this.lectores.addAll(tmp);
 		}
 		
-		public void reverse() {
-			List lista = new ArrayList();
-			for(int i=arreglo.size()-1; i>=0 ; i--) {
-				lista.add(arreglo.get(i));
-			}
-			arreglo.clear();
-			arreglo.addAll(lista);
-			
-		}
-		
 		
 		public String stockString(){
 			String s="";
-			Map<Integer, Copia> lista2 = CopiasUtil.getCopias(this.arreglo);
-			Set<Integer> claves = lista2.keySet();
-			Iterator<Integer> it = claves.iterator();
+			Iterator<Copia> it = arreglo.iterator();
+			
 			while (it.hasNext()) {
-				Integer clave = it.next();
-				Copia pe = lista2.get(clave);
-				s+= "Copia: Id: " + clave +" " + pe.toString() + "\n";
+				Copia pe = it.next();
+				
+				s+= "Copia: Id: " + pe.getId() +" " + pe.toString() + "\n";
 			}
 			return s;
 			
@@ -120,15 +102,10 @@ public class Biblioteca <T>{
 			
 			List<Copia> lista = new ArrayList<Copia>();
 			
-			Map<Integer, Copia> lista2 = CopiasUtil.getCopias(this.arreglo);
-			
-			Set<Integer> claves = lista2.keySet();
-			
-			Iterator<Integer> it = claves.iterator();
+			Iterator<Copia> it = arreglo.iterator();
 			
 			while (it.hasNext()) {
-				Integer clave = it.next();
-				Copia pe = lista2.get(clave);
+				Copia pe = it.next();
 				if (pe.getId() == id) {
 					pe.setEstado(estado);
 				}
@@ -141,15 +118,10 @@ public class Biblioteca <T>{
 		
 		public Copia obtenerCopia(int id) {
 			
-			Map<Integer, Copia> lista2 = CopiasUtil.getCopias(this.arreglo);
-			
-			Set<Integer> claves = lista2.keySet();
-			
-			Iterator<Integer> it = claves.iterator();
+			Iterator<Copia> it = arreglo.iterator();
 			
 			while (it.hasNext()) {
-				Integer clave = it.next();
-				Copia pe = lista2.get(clave);
+				Copia pe = it.next();
 				if (pe.getId() == id) {
 					return pe;
 				}
@@ -159,15 +131,10 @@ public class Biblioteca <T>{
 		
 		public Lector obtenerLector(int id) {
 			
-			Map<Integer, Lector> lista2 = LectoresUtil.getLectores(this.lectores);
-			
-			Set<Integer> claves = lista2.keySet();
-			
-			Iterator<Integer> it = claves.iterator();
+			Iterator<Lector> it = lectores.iterator();
 			
 			while (it.hasNext()) {
-				Integer clave = it.next();
-				Lector pe = lista2.get(clave);
+				Lector pe = it.next();
 				if (pe.getnSocio() == id) {
 					return pe;
 				}
@@ -182,13 +149,11 @@ public class Biblioteca <T>{
 		
 		public ArrayList<Copia> stock(){
 			
-			Map<Integer, Copia> lista2 = CopiasUtil.getCopias(this.arreglo);
-			ArrayList<Copia> r =new ArrayList(); 
-			Set<Integer> claves = lista2.keySet();
-			Iterator<Integer> it = claves.iterator();
+			ArrayList<Copia> r =new ArrayList<Copia>(); 
+			Iterator<Copia> it = arreglo.iterator();
+			
 			while (it.hasNext()) {
-				Integer clave = it.next();
-				Copia pe = lista2.get(clave);
+				Copia pe = it.next();
 				r.add(pe);
 			}
 			
@@ -197,15 +162,25 @@ public class Biblioteca <T>{
 		}
 		
 		public void alquilar(int idLector, int id) throws ParseException {
+			
 			Lector a = obtenerLector(idLector);
+			
 			if(a.prestar(id, new Date())) {
 				a.agregarPrestamo(new Prestamo(obtenerCopia(id)));
 				modEstadoCopia(id, estadoCopia.PRESTADO);
+			}else {
+				try {
+					
+					if (a.getMulta() != null){
+						SimpleDateFormat dateFormat = a.getMulta().dateFormat;
+						throw new RuntimeException("El lector "+a.getNombre() + " no podra retirar libros hasta el " + dateFormat.format(a.getMulta().getfFin()));
+					}
+					
+				} catch (RuntimeException e) {
+					System.out.println(e);
+				} 
 			}
-			else if (a.getMulta() != null){
-				SimpleDateFormat dateFormat = a.getMulta().dateFormat;
-				System.out.println("El lector "+a.getNombre() + " no podra retirar libros hasta el " + dateFormat.format(a.getMulta().getfFin()));
-			}
+
 		}
 		
 		public void regresar (int idLector, int id, Date fecha) throws ParseException {

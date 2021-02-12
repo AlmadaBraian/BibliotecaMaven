@@ -8,8 +8,7 @@ public class Copia extends Libro implements Comparable<Copia>{
 			String editorial, int id) {
 		super(nombre, nacionalidad, nacimiento, nombre2, tipo, año, editorial);
 		this.id = id;
-		this.estado = estado.BIBLIOTECA;
-		// TODO Auto-generated constructor stub
+		this.estado = estadoCopia.BIBLIOTECA;
 	}
 	private int id;
 	
@@ -53,7 +52,7 @@ public class Copia extends Libro implements Comparable<Copia>{
 	}
 	@Override
 	public int compareTo(Copia o) {
-		// TODO Auto-generated method stub
+
 		return this.id-o.getId();
 	}
 	@Override

@@ -101,6 +101,47 @@ public class Prestamo{
 	public String toString() {
 		return "Prestamo [inicio=" + dateFormat.format(inicio) + ", fin=" + dateFormat.format(fin) + ", copia=" + copia + "]";
 	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((copia == null) ? 0 : copia.hashCode());
+		result = prime * result + ((fin == null) ? 0 : fin.hashCode());
+		result = prime * result + ((inicio == null) ? 0 : inicio.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Prestamo other = (Prestamo) obj;
+		if (copia == null) {
+			if (other.copia != null)
+				return false;
+		} else if (!copia.equals(other.copia))
+			return false;
+		if (fin == null) {
+			if (other.fin != null)
+				return false;
+		} else if (!fin.equals(other.fin))
+			return false;
+		if (inicio == null) {
+			if (other.inicio != null)
+				return false;
+		} else if (!inicio.equals(other.inicio))
+			return false;
+		return true;
+	}
+	
+	
 	 
 	 
 

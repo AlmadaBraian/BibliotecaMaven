@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class Lector{
 	
@@ -138,38 +136,22 @@ public class Lector{
 		return true;
 	}
 	
-	public Prestamo obtenerPrestamo(int id) {
+	public Prestamo obtenerPrestamo(int index) {
 		
-		Map<Integer, Prestamo> lista2 = PrestamosUtil.getPrestamos(this.prestamos);
-		
-		Set<Integer> claves = lista2.keySet();
-		
-		Iterator<Integer> it = claves.iterator();
-		
-		while (it.hasNext()) {
-			Integer clave = it.next();
-			Prestamo pe = lista2.get(clave);
-			if (pe.getCopia().getId() == id) {
-				return pe;
-			}
-		}
-		return null;
+		Prestamo p = prestamos.get(index);
+		return p;
 	}
 	
-	public void  borrarPrestamo(int id) {
+	public void  borrarPrestamo(int index) {
 		
 		List<Prestamo> lista = new ArrayList<Prestamo>();
 		
-		Map<Integer, Prestamo> lista2 = PrestamosUtil.getPrestamos(this.prestamos);
-		
-		Set<Integer> claves = lista2.keySet();
-		
-		Iterator<Integer> it = claves.iterator();
+		Iterator<Prestamo> it = prestamos.iterator();
 		
 		while (it.hasNext()) {
-			Integer clave = it.next();
-			Prestamo pe = lista2.get(clave);
-			if (pe.getCopia().getId() != id) {
+			Prestamo pe = it.next();
+			
+			if (pe.equals(prestamos.get(index)) == false) {
 				lista.add(pe);
 			}
 		}
