@@ -17,6 +17,8 @@ public class Biblioteca <T>{
 		
 		private ArrayList<Lector> lectores = new ArrayList<Lector>();
 		
+		private ArrayList<Libro> libros = new ArrayList<Libro>();
+		
 		public void poopCopias(int id) {
 			
 			ArrayList<Copia> copias = new ArrayList<Copia>();
@@ -65,6 +67,9 @@ public class Biblioteca <T>{
 			tmp.add(e);
 			this.arreglo.clear();
 			this.arreglo.addAll(tmp);
+			pushLibro(e.getLibro());
+			setCantCopiasLibro(e.getLibro());
+			
 		}
 		public void pushLectores (Lector e) {
 			
@@ -89,7 +94,20 @@ public class Biblioteca <T>{
 			while (it.hasNext()) {
 				Copia pe = it.next();
 				
-				s+= "Copia: Id: " + pe.getId() +" " + pe.toString() + "\n";
+				s+= "Copia: " + pe.toString() + "\n";
+			}
+			return s;
+			
+		}
+		
+		public String stockLibrosString(){
+			String s="";
+			Iterator<Libro> it = libros.iterator();
+			
+			while (it.hasNext()) {
+				Libro pe = it.next();
+				
+				s+= "Libro: " + pe.stringLibro() + "\n";
 			}
 			return s;
 			
@@ -152,17 +170,7 @@ public class Biblioteca <T>{
 		}
 		
 		public ArrayList<Copia> stock(){
-			
-			ArrayList<Copia> r =new ArrayList<Copia>(); 
-			Iterator<Copia> it = arreglo.iterator();
-			
-			while (it.hasNext()) {
-				Copia pe = it.next();
-				r.add(pe);
-			}
-			
-			return r;
-			
+			return this.arreglo;
 		}
 		
 		public void alquilar(int idLector, int id) throws ParseException, LectorMultaException, LectorIdException, LectorExcedeAlquileresException {
@@ -171,10 +179,10 @@ public class Biblioteca <T>{
 			if (a != null) {
 				if(a.prestar(new Date())) {
 					
-					a.agregarPrestamo(new Prestamo(obtenerCopia(id)));
+					a.agregarPrestamo(new Prestamo(a,obtenerCopia(id)));
 					modEstadoCopia(id, estadoCopia.PRESTADO);
 					
-				}else if (a.getPrestamos().size()>=3){
+				}else if (a.getPrestamos().size()>3){
 					
 					throw new LectorExcedeAlquileresException("El lector "+ a.getNombre() + " ah excedido el maximo de alquileres");
 					
@@ -198,6 +206,89 @@ public class Biblioteca <T>{
 			}
 
 		}
+		
+		public ArrayList<Prestamo> getPrestamos(){
+			
+			ArrayList<Prestamo> r =new ArrayList<Prestamo>(); 
+			Iterator<Lector> it = lectores.iterator();
+			
+			while (it.hasNext()) {
+				Lector pe = it.next();
+				r.addAll(pe.getPrestamos());
+			}
+			
+			return r;
+			
+		}
+		
+		public void pushLibro(Libro l){
+			boolean b = false;
+			
+			ArrayList<Libro> tmp = new ArrayList<Libro>();
+			
+			Iterator<Libro> it = libros.iterator();
+			
+			while (it.hasNext()) {
+				Libro pe = it.next();
+				tmp.add(pe);
+			}
+			
+			System.out.println(tmp);
+			
+			for (Libro libro : tmp) {
+				
+				if(l.mismoLibro(libro)){
+					b = true;
+					break;
+				}
+			}
+			if (b==false) {
+				tmp.add(l);
+				this.libros.clear();
+				this.libros.addAll(tmp);
+			}
+
+		}
+		
+		public void setCantCopiasLibro(Libro l) {
+			Libro tmp=getLibro(l);
+			int cant = 0;
+			for (Copia copia : arreglo) {
+				if(tmp.mismoLibro(copia.getLibro())) {
+					cant++;	
+				}
+			}
+			tmp.setCopias(cant);
+		}
+
+		public ArrayList<Lector> getLectores() {
+			return lectores;
+		}
+
+		public void setLectores(ArrayList<Lector> lectores) {
+			this.lectores = lectores;
+		}
+
+		public ArrayList<Libro> getLibros() {
+			return libros;
+		}
+
+		public void setLibros(ArrayList<Libro> libros) {
+			this.libros = libros;
+		}
+		
+		public Libro getLibro(Libro l) {
+			for (Libro libro : libros) {
+				if(l.mismoLibro(libro)) {
+					return libro;
+				}
+			}
+			return null;
+		}
+		
+		
+
+		
 		
 		
 

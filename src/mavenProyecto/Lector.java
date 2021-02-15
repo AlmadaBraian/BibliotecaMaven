@@ -16,11 +16,18 @@ public class Lector{
 	private ArrayList<Prestamo> prestamos = new ArrayList<Prestamo>();
 
 	public Lector(int nSocio, String nombre, String telefono, String direccion) {
-		super();
 		this.nSocio = nSocio;
 		this.nombre = nombre;
 		this.telefono = telefono;
 		this.direccion = direccion;
+		this.multa = null;
+	}
+	
+	public Lector(Lector l) {
+		this.nSocio = l.getnSocio();
+		this.nombre = l.getNombre();
+		this.telefono = l.getTelefono();
+		this.direccion = l.getDireccion();
 		this.multa = null;
 	}
 
@@ -77,7 +84,19 @@ public class Lector{
 	
 	
 	public void agregarPrestamo(Prestamo p) {
-		this.prestamos.add(p);
+		boolean b =false;
+		ArrayList<Prestamo> tmp = new ArrayList<Prestamo>();
+		
+		Iterator<Prestamo> it = prestamos.iterator();
+		
+		while (it.hasNext()) {
+			Prestamo pe = it.next();
+			tmp.add(pe);
+		}
+		
+		tmp.add(p);
+		this.prestamos.clear();
+		this.prestamos.addAll(tmp);
 	}
 	
 	
@@ -85,7 +104,7 @@ public class Lector{
 		
 		if (this.multa == null){
 			
-			if (prestamos.size()<3) {
+			if (prestamos.size()<=3) {
 				return true;
 				
 			}
@@ -153,6 +172,7 @@ public class Lector{
 		
 		
 	}
+	
 	
 	public void  borrarPrestamo(int index) {
 		

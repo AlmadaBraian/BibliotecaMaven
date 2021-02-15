@@ -2,12 +2,13 @@ package mavenProyecto;
 
 import java.util.Date;
 
-public class Libro extends Autor{
+public class Libro extends Autor implements Comparable{
 
 	private String nombre;
 	private LibroTipo tipo;
 	private int año;
 	private String editorial;
+	private int copias;
 	
 	
 	public Libro(String nombre, String nacionalidad, Date nacimiento, String nombre2, LibroTipo tipo, int año,
@@ -45,6 +46,89 @@ public class Libro extends Autor{
 	public void setEditorial(String editorial) {
 		this.editorial = editorial;
 	}
+	
+	public Libro getLibro() {
+		return this;
+	}
+	
+	
+
+
+	public int getCopias() {
+		return copias;
+	}
+
+
+	public void setCopias(int copias) {
+		this.copias = copias;
+	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + año;
+		result = prime * result + copias;
+		result = prime * result + ((editorial == null) ? 0 : editorial.hashCode());
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
+		return result;
+	}
+	
+	
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Libro other = (Libro) obj;
+		if (año != other.año)
+			return false;
+		if (copias != other.copias)
+			return false;
+		if (editorial == null) {
+			if (other.editorial != null)
+				return false;
+		} else if (!editorial.equals(other.editorial))
+			return false;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		if (tipo != other.tipo)
+			return false;
+		return true;
+	}
+
+
+	public boolean mismoLibro (Libro l) {
+		if(this.getNombre().equals(l.getNombre()) && this.getNombreAutor().equals(l.getNombreAutor())) {
+			return true;
+		}
+		 return false;
+	}
+
+	public String stringLibro() {
+		return "nombre=" + nombre + ", tipo=" + tipo + ", año=" + año + ", editorial=" + editorial + ", copias="
+				+ copias ;
+	}
+
+
+	@Override
+	public int compareTo(Object o) {
+		
+		return this.hashCode()-o.hashCode();
+	}
+	
+	
+	
+	
 	
 	
 

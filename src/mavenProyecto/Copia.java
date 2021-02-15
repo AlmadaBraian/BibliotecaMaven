@@ -2,7 +2,7 @@ package mavenProyecto;
 
 import java.util.Date;
 
-public class Copia extends Libro implements Comparable<Copia>{
+public class Copia extends Libro{
 
 	public Copia(String nombre, String nacionalidad, Date nacimiento, String nombre2, LibroTipo tipo, int año,
 			String editorial, int id) {
@@ -25,6 +25,10 @@ public class Copia extends Libro implements Comparable<Copia>{
 	}
 	public void setEstado(estadoCopia estado) {
 		this.estado = estado;
+	}
+	
+	public Libro getLibro() {
+		return super.getLibro(); 
 	}
 
 	@Override
@@ -57,7 +61,7 @@ public class Copia extends Libro implements Comparable<Copia>{
 	}
 	@Override
 	public String toString() {
-		return ", Estado= " + getEstado() + ", Libro= " + getNombre()
+		return "Id= " + getId() +", Estado= " + getEstado() + ", Libro= " + getNombre()
 				+ ", Tipo= " + getTipo() + ", Año publicacion= " + getAño() + ", " + getEditorial()
 				+ ", Autor = " + getNombreAutor() + ", Nacionalidad = "
 				+ getNacionalidad() + ", Nacimiento= " + dateFormat.format(getNacimiento());

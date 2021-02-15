@@ -13,11 +13,12 @@ public class Prestamo{
 	private Date fin;
 	private Copia copia;
 	private Date hoy = new Date();
+	private Lector lector;
 	private int maxDias=30;
 	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	
-	public Prestamo(Copia copia) throws ParseException {
-		super();
+	public Prestamo(Lector l,Copia copia) throws ParseException {
+		this.lector = l;
 		this.inicio = hoy;
 		this.fin = sumarDiasFecha(hoy, maxDias);
 		this.copia = copia;
@@ -99,7 +100,7 @@ public class Prestamo{
 
 	@Override
 	public String toString() {
-		return "Prestamo [inicio=" + dateFormat.format(inicio) + ", fin=" + dateFormat.format(fin) + ", copia=" + copia + "]";
+		return "Prestamo: Lector: \n" + lector.getNombre() + "\nInicio: " + dateFormat.format(inicio) + ", Fin: " + dateFormat.format(fin) + "\nCopia: \n" + copia + "\n ";
 	}
 
 

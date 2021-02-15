@@ -86,24 +86,12 @@ class BibliotecaTest {
 		}catch(LectorIdException e) {
 			fail("id lector no valida");
 		}catch (LectorExcedeAlquileresException e) {
-			fail("alquiler maximo alcanzado");
+			fail(e);
 			
 		}
 		
 		b.regresar(tmp.getnSocio(), 1, new Date());
-		
-		try {
-			b.alquilar(tmp.getnSocio(),17);
-		} catch (ParseException e) {
-			fail("fecha mal formada");
-		}catch ( LectorMultaException e) {
-			fail("Lector multado");
-		}catch(LectorIdException e) {
-			fail("id lector no valida");
-		}catch (LectorExcedeAlquileresException e) {
-			fail("alquiler maximo alcanzado");
-			
-		}
+
 
     }
 	

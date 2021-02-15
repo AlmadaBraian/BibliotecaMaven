@@ -50,12 +50,6 @@ public class Test {
 		System.out.println(b.stockString());
 		
 		Lector tmp = b.obtenerLector(l.getnSocio()); 
-		
-		ArrayList<Prestamo> prestamos = tmp.getPrestamos();
-		
-		for(Prestamo p : prestamos) {
-			System.out.println(p.toString());
-		}
 
 		b.regresar(tmp.getnSocio(), 1, pas);
 		
@@ -67,11 +61,15 @@ public class Test {
 		
 		System.out.println("\n");
 		
-		b.alquilar(tmp.getnSocio(),18);
+		//b.alquilar(tmp.getnSocio(),18);
 		
 		System.out.println("\n");
 		
-		System.out.println(b.stockString());
+		System.out.println("Stock libros: \n"+b.stockLibrosString());
+		
+		for (Prestamo pres : b.getPrestamos()) {
+			System.out.println(pres);
+		}
 	
 	}
 
