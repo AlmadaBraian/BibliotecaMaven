@@ -5,13 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import Excepciones.CopiaYaAlquiladaException;
 import Excepciones.LectorExcedeAlquileresException;
 import Excepciones.LectorIdException;
 import Excepciones.LectorMultaException;
 
 public class Test {
 
-	public static void main(String[] args) throws ParseException, LectorMultaException, LectorIdException, LectorExcedeAlquileresException {
+	public static void main(String[] args) throws ParseException, LectorMultaException, LectorIdException, LectorExcedeAlquileresException, CopiaYaAlquiladaException {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		
 		Date pas = dateFormat.parse("15-03-2021");
@@ -37,14 +38,14 @@ public class Test {
 		
 		b.pushLectores(l);
 		b.pushLectores(l2);
-		//b.stock();
+		b.stock();
 		
-		b.alquilar(l.getnSocio(),26);
-		b.alquilar(l.getnSocio(),15);
-		b.alquilar(l.getnSocio(),16);
+		b.alquilar(l.getnSocio(),b.obtenerCopia(26));
+		b.alquilar(l.getnSocio(),b.obtenerCopia(15));
+		b.alquilar(l.getnSocio(),b.obtenerCopia(16));
 		
-		b.alquilar(l2.getnSocio(),25);
-		b.alquilar(l2.getnSocio(),17);
+		b.alquilar(l2.getnSocio(),b.obtenerCopia(18));
+		b.alquilar(l2.getnSocio(),b.obtenerCopia(17));
 
 		
 		System.out.println(b.stockString());
@@ -70,6 +71,7 @@ public class Test {
 		for (Prestamo pres : b.getPrestamos()) {
 			System.out.println(pres);
 		}
+
 	
 	}
 

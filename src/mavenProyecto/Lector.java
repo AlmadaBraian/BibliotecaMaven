@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import Excepciones.LectorExcedeAlquileresException;
+
 public class Lector{
 	
 	private int nSocio;
@@ -77,7 +79,7 @@ public class Lector{
 			borrarPrestamo(id);
 			
 		} catch (NullPointerException e) {
-			System.out.println(e);
+			throw new NullPointerException("El prestamos solicitado no existe");
 		}
 		
 	}
@@ -100,11 +102,11 @@ public class Lector{
 	}
 	
 	
-	public boolean prestar(Date fechaAct){
+	public boolean prestar(){
 		
 		if (this.multa == null){
 			
-			if (prestamos.size()<=3) {
+			if (prestamos.size()<3) {
 				return true;
 				
 			}
@@ -166,8 +168,7 @@ public class Lector{
 			return p;
 		} catch (IndexOutOfBoundsException e) {
 			
-			System.out.println(e);
-			return null;
+			throw new NullPointerException("El prestamos solicitado no existe");
 		}
 		
 		

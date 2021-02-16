@@ -24,7 +24,34 @@ public class Prestamo{
 		this.copia = copia;
 	}
 	
+	public Prestamo(Lector l,Copia copia, Date inicio) throws ParseException {
+		this.lector = l;
+		this.inicio = inicio;
+		this.fin = sumarDiasFecha(inicio, maxDias);
+		this.copia = copia;
+	}
 	
+	
+	public Lector getLector() {
+		return lector;
+	}
+
+
+	public void setLector(Lector lector) {
+		this.lector = lector;
+	}
+
+
+	public int getMaxDias() {
+		return maxDias;
+	}
+
+
+	public void setMaxDias(int maxDias) {
+		this.maxDias = maxDias;
+	}
+
+
 	public Date getHoy() {
 		return hoy;
 	}

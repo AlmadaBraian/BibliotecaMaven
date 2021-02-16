@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import Excepciones.CopiaYaAlquiladaException;
 import Excepciones.LectorExcedeAlquileresException;
 import Excepciones.LectorIdException;
 import Excepciones.LectorMultaException;
@@ -173,18 +174,25 @@ public class Biblioteca <T>{
 			return this.arreglo;
 		}
 		
-		public void alquilar(int idLector, int id) throws ParseException, LectorMultaException, LectorIdException, LectorExcedeAlquileresException {
+		public void alquilar(int idLector, Copia copia) throws ParseException, LectorMultaException, LectorIdException, LectorExcedeAlquileresException, CopiaYaAlquiladaException {
 			
 			Lector a = obtenerLector(idLector);
+			Copia c = obtenerCopia(copia.getId());
+			
 			if (a != null) {
-				if(a.prestar(new Date())) {
-					
-					a.agregarPrestamo(new Prestamo(a,obtenerCopia(id)));
-					modEstadoCopia(id, estadoCopia.PRESTADO);
-					
-				}else if (a.getPrestamos().size()>3){
+
+				if (a.getPrestamos().size()>=3){
 					
 					throw new LectorExcedeAlquileresException("El lector "+ a.getNombre() + " ah excedido el maximo de alquileres");
+					
+				}else if(a.prestar()) {
+					if(c.getEstado() == estadoCopia.BIBLIOTECA) {
+						a.agregarPrestamo(new Prestamo(a,obtenerCopia(copia.getId())));
+						modEstadoCopia(copia.getId(), estadoCopia.PRESTADO);
+					}else {
+						throw new CopiaYaAlquiladaException("La copia que desea alquilar ya esta alquilada o en reparacion");
+					}
+
 					
 				}else if (a.getMulta() != null){
 					
@@ -232,8 +240,6 @@ public class Biblioteca <T>{
 				Libro pe = it.next();
 				tmp.add(pe);
 			}
-			
-			System.out.println(tmp);
 			
 			for (Libro libro : tmp) {
 				
@@ -286,10 +292,15 @@ public class Biblioteca <T>{
 			return null;
 		}
 		
-		
-
-		
-		
-		
+		public void checkVencimientoPrestamos() {
+			ArrayList<Prestamo> p = getPrestamos();
+			
+			for (Prestamo prestamo : p) {
+				if(prestamo.diasDif()>prestamo.getMaxDias()) {
+					modEstadoCopia(prestamo.getCopia().getId(), estadoCopia.RETRASO); 
+				}
+			}
+			
+		}
 
 }
