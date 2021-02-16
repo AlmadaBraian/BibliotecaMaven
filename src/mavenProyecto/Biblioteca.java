@@ -243,7 +243,7 @@ public class Biblioteca <T>{
 			
 			for (Libro libro : tmp) {
 				
-				if(l.mismoLibro(libro)){
+				if(l.equals(libro)){
 					b = true;
 					break;
 				}
@@ -260,7 +260,7 @@ public class Biblioteca <T>{
 			Libro tmp=getLibro(l);
 			int cant = 0;
 			for (Copia copia : arreglo) {
-				if(tmp.mismoLibro(copia.getLibro())) {
+				if(tmp.equals(copia.getLibro())) {
 					cant++;	
 				}
 			}
@@ -285,7 +285,7 @@ public class Biblioteca <T>{
 		
 		public Libro getLibro(Libro l) {
 			for (Libro libro : libros) {
-				if(l.mismoLibro(libro)) {
+				if(l.equals(libro)) {
 					return libro;
 				}
 			}

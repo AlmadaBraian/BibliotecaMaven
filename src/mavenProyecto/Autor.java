@@ -94,6 +94,10 @@ public class Autor {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	public boolean equals(Libro obj) {
+		
+		return false;
+	}
 	
 	
 	

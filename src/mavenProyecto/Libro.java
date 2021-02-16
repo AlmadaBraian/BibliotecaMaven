@@ -79,40 +79,14 @@ public class Libro extends Autor implements Comparable{
 	
 	
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Libro other = (Libro) obj;
-		if (año != other.año)
-			return false;
-		if (copias != other.copias)
-			return false;
-		if (editorial == null) {
-			if (other.editorial != null)
-				return false;
-		} else if (!editorial.equals(other.editorial))
-			return false;
-		if (nombre == null) {
-			if (other.nombre != null)
-				return false;
-		} else if (!nombre.equals(other.nombre))
-			return false;
-		if (tipo != other.tipo)
-			return false;
-		return true;
-	}
+	public boolean equals(Libro obj) {
 
-
-	public boolean mismoLibro (Libro l) {
-		if(this.getNombre().equals(l.getNombre()) && this.getNombreAutor().equals(l.getNombreAutor())) {
+		if(this.getNombre().equals(obj.getNombre()) && this.getNombreAutor().equals(obj.getNombreAutor())) {
 			return true;
 		}
 		 return false;
 	}
+
 
 	public String stringLibro() {
 		return "nombre=" + nombre + ", tipo=" + tipo + ", año=" + año + ", editorial=" + editorial + ", copias="
