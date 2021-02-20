@@ -13,7 +13,7 @@ public class CopiasUtil{
 		Map<Integer,Copia> copias = new HashMap<Integer, Copia>();
 		
 		for (Copia copia : setA) {
-			copias.put(copia.getId(), copia);
+			copias.put((int) copia.getId(), copia);
 		}
 
 		return copias;
@@ -22,12 +22,7 @@ public class CopiasUtil{
 	
 	public static int compare(Copia o1, Copia o2) {
 		
-		return o1.getId()-o2.getId();
-	}
-	
-	public static ArrayList<Copia> ordenarCopias (ArrayList<Copia> setA) {
-		Collections.sort(setA);
-	    return setA;
+		return (int) (o1.getId()-o2.getId());
 	}
 
 	

@@ -56,22 +56,6 @@ public class Biblioteca <T>{
 			
 		}
 		
-		public void pushCopias (Copia e) {
-			ArrayList<Copia> tmp = new ArrayList<Copia>();
-			
-			Iterator<Copia> it = arreglo.iterator();
-			
-			while (it.hasNext()) {
-				Copia pe = it.next();
-				tmp.add(pe);
-			}
-			tmp.add(e);
-			this.arreglo.clear();
-			this.arreglo.addAll(tmp);
-			pushLibro(e.getLibro());
-			setCantCopiasLibro(e.getLibro());
-			
-		}
 		public void pushLectores (Lector e) {
 			
 			ArrayList<Lector> tmp = new ArrayList<Lector>();
@@ -114,7 +98,7 @@ public class Biblioteca <T>{
 			
 		}
 		
-		public void  modEstadoCopia(int id, estadoCopia estado) {
+		public void  modEstadoCopia(long l, estadoCopia estado) {
 			
 			List<Copia> lista = new ArrayList<Copia>();
 			
@@ -122,7 +106,7 @@ public class Biblioteca <T>{
 			
 			while (it.hasNext()) {
 				Copia pe = it.next();
-				if (pe.getId() == id) {
+				if (pe.getId() == l) {
 					pe.setEstado(estado);
 				}
 				lista.add(pe);
@@ -132,13 +116,13 @@ public class Biblioteca <T>{
 			this.arreglo.addAll(lista);
 		}
 		
-		public Copia obtenerCopia(int id) {
+		public Copia obtenerCopia(long l) {
 			
 			Iterator<Copia> it = arreglo.iterator();
 			
 			while (it.hasNext()) {
 				Copia pe = it.next();
-				if (pe.getId() == id) {
+				if (pe.getId() == l) {
 					return pe;
 				}
 			}
@@ -229,6 +213,18 @@ public class Biblioteca <T>{
 			
 		}
 		
+		public ArrayList<Multa> getMultas(){
+			
+			ArrayList<Multa>multas = new ArrayList<Multa>();
+			
+			for (Lector lector : lectores) {
+				if(lector.getMulta()!=null) {
+					multas.add(lector.getMulta());
+				}
+			}
+			return multas;
+		}
+		
 		public void pushLibro(Libro l){
 			boolean b = false;
 			
@@ -256,16 +252,6 @@ public class Biblioteca <T>{
 
 		}
 		
-		public void setCantCopiasLibro(Libro l) {
-			Libro tmp=getLibro(l);
-			int cant = 0;
-			for (Copia copia : arreglo) {
-				if(tmp.equals(copia.getLibro())) {
-					cant++;	
-				}
-			}
-			tmp.setCopias(cant);
-		}
 
 		public ArrayList<Lector> getLectores() {
 			return lectores;

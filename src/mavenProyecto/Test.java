@@ -5,6 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
 import Excepciones.CopiaYaAlquiladaException;
 import Excepciones.LectorExcedeAlquileresException;
 import Excepciones.LectorIdException;
@@ -22,19 +27,36 @@ public class Test {
 		Lector l2 = new Lector(519, "Braian Almada", "47369502", "Darragueira 5840");
 		
 		Biblioteca<Copia> b = new Biblioteca<Copia>();
+		Autor autor = new Autor();
+		Libro libro = new Libro();
 		
-		b.pushCopias(new Copia("Arturo Puig", "Frances", nacimiento, "Frutos de su tiempo", LibroTipo.ENSAYO, 2005, "Editorial Planeta",15));
-		b.pushCopias(new Copia("Arturo Puig", "Frances", nacimiento, "Frutos de su tiempo", LibroTipo.ENSAYO, 2005, "Editorial Planeta",16));
-		b.pushCopias(new Copia("Arturo Puig", "Frances", nacimiento, "Frutos de su tiempo", LibroTipo.ENSAYO, 2005, "Editorial Planeta",17));
-		b.pushCopias(new Copia("Marito Baracus", "Argentino", dateFormat.parse("12-11-1983"), "Alquilando fulanitos", LibroTipo.NOVELA, 1993, "Editorial Planeta",18));
-		b.pushCopias(new Copia("Marito Baracus", "Argentino", dateFormat.parse("12-11-1983"), "Alquilando fulanitos", LibroTipo.NOVELA, 1993, "Editorial Planeta",19));
-		b.pushCopias(new Copia("Marito Baracus", "Argentino", dateFormat.parse("12-11-1983"), "Alquilando fulanitos", LibroTipo.NOVELA, 1993, "Editorial Planeta",20));
-		b.pushCopias(new Copia("Stephen King Puig", "Estadounidense", dateFormat.parse("21-9-1947"), "El resplandor", LibroTipo.NOVELA, 1977, "Editorial Vintage ",21));
-		b.pushCopias(new Copia("Stephen King Puig", "Estadounidense", dateFormat.parse("21-9-1947"), "El resplandor", LibroTipo.NOVELA, 1977, "Editorial Vintage ",22));
-		b.pushCopias(new Copia("Stephen King Puig", "Estadounidense", dateFormat.parse("21-9-1947"), "El resplandor", LibroTipo.NOVELA, 1977, "Editorial Vintage ",23));
-		b.pushCopias(new Copia("Katsuhiro Ôtomo", "Japones", dateFormat.parse("14-04-1954"), "Akira tomo 1", LibroTipo.NOVELA, 1982, "Editorial Ivrea",24));
-		b.pushCopias(new Copia("Katsuhiro Ôtomo", "Japones", dateFormat.parse("14-04-1954"), "Akira tomo 1", LibroTipo.NOVELA, 1982, "Editorial Ivrea",25));
-		b.pushCopias(new Copia("Katsuhiro Ôtomo", "Japones", dateFormat.parse("14-04-1954"), "Akira tomo 1", LibroTipo.NOVELA, 1982, "Editorial Ivrea",26));
+		autor.setNacimiento(nacimiento);
+		autor.setNacionalidad("Frances");
+		autor.setNombreAutor("Arturo Puig");
+		
+		
+		libro.setAño(2005);
+		libro.setEditorial("planeta");
+		libro.setNombre("Frutos de su tiempo");
+		libro.setTipo(LibroTipo.ENSAYO);
+		
+		libro.setEstado(estadoCopia.BIBLIOTECA);
+		
+		libro.setAutor(autor);
+		
+		autor.pushlibro(libro);
+
+		
+		EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("ejsHibernate");
+		
+		EntityManager em = managerFactory.createEntityManager();
+		EntityTransaction tran = em.getTransaction();
+		tran.begin();
+		em.persist(libro);
+		em.persist(autor);
+		tran.commit();
+		em.close();
+
 		
 		b.pushLectores(l);
 		b.pushLectores(l2);
@@ -51,8 +73,10 @@ public class Test {
 		System.out.println(b.stockString());
 		
 		Lector tmp = b.obtenerLector(l.getnSocio()); 
+		Lector tmp2 = b.obtenerLector(l2.getnSocio()); 
 
-		b.regresar(tmp.getnSocio(), 1, pas);
+		b.regresar(tmp.getnSocio(), 0, pas);
+		b.regresar(tmp2.getnSocio(), 1, pas);
 		
 		System.out.println(b.obtenerMultaLector(tmp.getnSocio()));
 		
@@ -62,7 +86,7 @@ public class Test {
 		
 		System.out.println("\n");
 		
-		//b.alquilar(tmp.getnSocio(),18);
+		//b.alquilar(tmp.getnSocio(),b.obtenerCopia(18));
 		
 		System.out.println("\n");
 		
@@ -70,6 +94,10 @@ public class Test {
 		
 		for (Prestamo pres : b.getPrestamos()) {
 			System.out.println(pres);
+		}
+		
+		for ( Multa m : b.getMultas()) {
+			System.out.println(m.toString()+"\n");
 		}
 
 	

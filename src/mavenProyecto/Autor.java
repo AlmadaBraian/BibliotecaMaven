@@ -1,34 +1,94 @@
 package mavenProyecto;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class Autor {
-	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-	private String nombre;
-	private String nacionalidad;
-	private Date nacimiento;
-	private ArrayList<Libro> obras;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+public class Autor implements Serializable {
+
 	
-	public Autor(String nombre, String nacionalidad, Date nacimiento) {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8503078945885609819L;
+	
+	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	@Column(name="autor_id")@Id@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	@Column
+	private String nombreAutor;
+	@Column
+	private String nacionalidad;
+	@Column
+	private Date nacimiento;
+	@OneToMany(targetEntity=Libro.class, mappedBy="autor", fetch=FetchType.EAGER)
+	private List<Libro> obras = new ArrayList<Libro>();
+	
+	//public Autor(String nombre, String nacionalidad, Date nacimiento) {
 		//super();
-		this.nombre = nombre;
-		this.nacionalidad = nacionalidad;
-		this.nacimiento = nacimiento;
+		//this.nombre = nombre;
+		//this.nacionalidad = nacionalidad;
+		//this.nacimiento = nacimiento;
 		
+	//}
+	
+	public Autor() {
+		super();
 	}
-	public ArrayList<Libro> getObras() {
+	
+	
+	
+	public void setObras(List<Libro> obras) {
+		this.obras = obras;
+	}
+
+	public long getId() {
+		return id;
+	}
+	
+	public void pushlibro(Libro libro) {
+		this.obras.add(libro);
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNombreAutor() {
+		return nombreAutor;
+	}
+
+	public void setNombreAutor(String nombre) {
+		this.nombreAutor = nombre;
+	}
+
+	public void setObras(ArrayList<Libro> obras) {
+		this.obras = obras;
+	}
+
+	public List<Libro> getObras() {
 		return obras;
 	}
 	public void setObras(Libro libro) {
 		this.obras.add(libro);
-	}
-	public String getNombreAutor() {
-		return nombre;
-	}
-	public void setNombreAutor(String nombre) {
-		this.nombre = nombre;
 	}
 	public String getNacionalidad() {
 		return nacionalidad;
@@ -50,7 +110,7 @@ public class Autor {
 		result = prime * result + ((dateFormat == null) ? 0 : dateFormat.hashCode());
 		result = prime * result + ((nacimiento == null) ? 0 : nacimiento.hashCode());
 		result = prime * result + ((nacionalidad == null) ? 0 : nacionalidad.hashCode());
-		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + ((nombreAutor == null) ? 0 : nombreAutor.hashCode());
 		result = prime * result + ((obras == null) ? 0 : obras.hashCode());
 		return result;
 	}
@@ -78,10 +138,10 @@ public class Autor {
 				return false;
 		} else if (!nacionalidad.equals(other.nacionalidad))
 			return false;
-		if (nombre == null) {
-			if (other.nombre != null)
+		if (nombreAutor == null) {
+			if (other.nombreAutor != null)
 				return false;
-		} else if (!nombre.equals(other.nombre))
+		} else if (!nombreAutor.equals(other.nombreAutor))
 			return false;
 		if (obras == null) {
 			if (other.obras != null)

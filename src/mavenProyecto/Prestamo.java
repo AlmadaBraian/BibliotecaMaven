@@ -127,7 +127,7 @@ public class Prestamo{
 
 	@Override
 	public String toString() {
-		return "Prestamo: Lector: \n" + lector.getNombre() + "\nInicio: " + dateFormat.format(inicio) + ", Fin: " + dateFormat.format(fin) + "\nCopia: \n" + copia + "\n ";
+		return "Prestamo: \nLector: " + lector.getNombre() + "\nInicio: " + dateFormat.format(inicio) + ", Fin: " + dateFormat.format(fin) + "\nCopia: \n" + copia + "\n ";
 	}
 
 

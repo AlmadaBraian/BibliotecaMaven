@@ -1,23 +1,57 @@
 package mavenProyecto;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class Copia extends Libro{
+import javax.persistence.AttributeOverride;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
-	public Copia(String nombre, String nacionalidad, Date nacimiento, String nombre2, LibroTipo tipo, int año,
-			String editorial, int id) {
-		super(nombre, nacionalidad, nacimiento, nombre2, tipo, año, editorial);
-		this.id = id;
-		this.estado = estadoCopia.BIBLIOTECA;
-	}
-	private int id;
+@Entity
+@Table (name="copias")
+public class Copia implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8205977888805468258L;
 	
+
+	//public Copia(String nombre, String nacionalidad, Date nacimiento, String nombre2, LibroTipo tipo, int año,
+			//String editorial, long id) {
+		//super();
+		//this.id = id;
+		//this.estado = estadoCopia.BIBLIOTECA;
+	//}
+	@Column(name="copia_id")@Id@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	@Column
 	private estadoCopia estado;
 	
-	public int getId() {
+
+	public Copia() {
+		super();
+	}
+
+
+
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public estadoCopia getEstado() {
@@ -27,17 +61,13 @@ public class Copia extends Libro{
 		this.estado = estado;
 	}
 	
-	public Libro getLibro() {
-		return super.getLibro(); 
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		long result = 1;
 		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
 		result = prime * result + id;
-		return result;
+		return (int) result;
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -54,19 +84,16 @@ public class Copia extends Libro{
 			return false;
 		return true;
 	}
-	@Override
 	public int compareTo(Copia o) {
 
-		return this.id-o.getId();
+		return (int) (this.id-o.getId());
 	}
-	@Override
-	public String toString() {
-		return "Id= " + getId() +", Estado= " + getEstado() + ", Libro= " + getNombre()
-				+ ", Tipo= " + getTipo() + ", Año publicacion= " + getAño() + ", " + getEditorial()
-				+ ", Autor = " + getNombreAutor() + ", Nacionalidad = "
-				+ getNacionalidad() + ", Nacimiento= " + dateFormat.format(getNacimiento());
+
+	public boolean equals(Libro obj) {
+		// TODO Auto-generated method stub
+		return false;
 	}
-	
+
 	
 
 }

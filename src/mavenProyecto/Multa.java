@@ -59,7 +59,7 @@ public class Multa extends Lector{
 
 	@Override
 	public String toString() {
-		return "Multa [fInicio=" + fInicio + ", fFin=" + fFin + "]";
+		return "Lector multado: "+ this.getNombre() +" Multado el: " + dateFormat.format(fInicio) + ", Fin multa: " + dateFormat.format(fFin);
 	}
 	
 
