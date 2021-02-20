@@ -39,7 +39,8 @@ public class Autor implements Serializable {
 	private String nacionalidad;
 	@Column
 	private Date nacimiento;
-	@OneToMany(targetEntity=Libro.class, mappedBy="autor", fetch=FetchType.EAGER)
+	
+	@OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
 	private List<Libro> obras = new ArrayList<Libro>();
 	
 	//public Autor(String nombre, String nacionalidad, Date nacimiento) {

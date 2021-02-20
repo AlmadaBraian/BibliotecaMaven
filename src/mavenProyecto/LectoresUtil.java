@@ -10,7 +10,7 @@ public interface LectoresUtil {
 			Map<Integer, Lector> lectores = new HashMap<Integer, Lector>();
 		
 			for (Lector copia : setA) {
-				lectores.put(copia.getnSocio(), copia);
+				lectores.put((int) copia.getnSocio(), copia);
 			}
 
 			return lectores;

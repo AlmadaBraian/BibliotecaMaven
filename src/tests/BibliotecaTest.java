@@ -19,8 +19,8 @@ import mavenProyecto.LibroTipo;
 
 class BibliotecaTest {
 	Biblioteca<Copia> b = new Biblioteca<Copia>();
-	Lector l = new Lector(518, "Bartolo Gimenez", "47369502", "Darragueira 5840");
-	Lector l2 = new Lector(519, "Braian Almada", "47369502", "Darragueira 5840");
+	Lector l = new Lector();
+	Lector l2 = new Lector();
 	
 	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 

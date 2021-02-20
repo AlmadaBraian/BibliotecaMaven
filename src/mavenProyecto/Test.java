@@ -23,12 +23,30 @@ public class Test {
 		Date pas = dateFormat.parse("15-03-2021");
 		Date nacimiento = dateFormat.parse("10-01-1993");
 		
-		Lector l = new Lector(518, "Bartolo Gimenez", "47369502", "Darragueira 5840");
-		Lector l2 = new Lector(519, "Braian Almada", "47369502", "Darragueira 5840");
+		Lector l = new Lector();
+		Lector l2 = new Lector();
 		
 		Biblioteca<Copia> b = new Biblioteca<Copia>();
+		
 		Autor autor = new Autor();
 		Libro libro = new Libro();
+		
+		Multa multa = new Multa();
+		
+		Prestamo p = new Prestamo();
+		
+		Date inicio = dateFormat.parse("16-02-2021");
+		Date fin = dateFormat.parse("16-03-2021");
+		
+		
+		multa.setfFin(fin);
+		multa.setfInicio(inicio);
+		
+		l.setDireccion("Darragueira 5840");
+		l.setNombre("Braian Almada");
+		l.setTelefono("47369501");
+		
+		
 		
 		autor.setNacimiento(nacimiento);
 		autor.setNacionalidad("Frances");
@@ -45,6 +63,17 @@ public class Test {
 		libro.setAutor(autor);
 		
 		autor.pushlibro(libro);
+		
+		p.setFin(fin);
+		p.setInicio(inicio);
+		p.setLector(l);
+		p.setCopia(libro);
+		
+		multa.setLector(l);
+		
+		l.agregarPrestamo(p);
+		l.setMulta(multa);
+		
 
 		
 		EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("ejsHibernate");
@@ -52,8 +81,9 @@ public class Test {
 		EntityManager em = managerFactory.createEntityManager();
 		EntityTransaction tran = em.getTransaction();
 		tran.begin();
-		em.persist(libro);
-		em.persist(autor);
+		em.persist(l);
+		em.persist(p);
+		em.persist(multa);
 		tran.commit();
 		em.close();
 
@@ -62,23 +92,7 @@ public class Test {
 		b.pushLectores(l2);
 		b.stock();
 		
-		b.alquilar(l.getnSocio(),b.obtenerCopia(26));
-		b.alquilar(l.getnSocio(),b.obtenerCopia(15));
-		b.alquilar(l.getnSocio(),b.obtenerCopia(16));
-		
-		b.alquilar(l2.getnSocio(),b.obtenerCopia(18));
-		b.alquilar(l2.getnSocio(),b.obtenerCopia(17));
 
-		
-		System.out.println(b.stockString());
-		
-		Lector tmp = b.obtenerLector(l.getnSocio()); 
-		Lector tmp2 = b.obtenerLector(l2.getnSocio()); 
-
-		b.regresar(tmp.getnSocio(), 0, pas);
-		b.regresar(tmp2.getnSocio(), 1, pas);
-		
-		System.out.println(b.obtenerMultaLector(tmp.getnSocio()));
 		
 		System.out.println("\n");
 		

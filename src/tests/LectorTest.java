@@ -13,16 +13,24 @@ import Excepciones.CopiaYaAlquiladaException;
 import Excepciones.LectorExcedeAlquileresException;
 import Excepciones.LectorIdException;
 import Excepciones.LectorMultaException;
+import mavenProyecto.Autor;
 import mavenProyecto.Biblioteca;
 import mavenProyecto.Copia;
 import mavenProyecto.Lector;
+import mavenProyecto.Libro;
 import mavenProyecto.LibroTipo;
 import mavenProyecto.Prestamo;
+import mavenProyecto.estadoCopia;
 
 class LectorTest {
 	Biblioteca<Copia> b = new Biblioteca<Copia>();
-	Lector l = new Lector(518, "Bartolo Gimenez", "47369502", "Darragueira 5840");
-	Lector l2 = new Lector(519, "Braian Almada", "47369502", "Darragueira 5840");
+	Lector l = new Lector();
+	Lector l2 = new Lector();
+	
+	Autor autor = new Autor();
+	Libro libro = new Libro();
+	
+
 	
 	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	Date pas;
@@ -36,7 +44,26 @@ class LectorTest {
 	}
 
 	@Test
-	final void testDevolver() {
+	final void testDevolver() throws ParseException {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		
+		Date pas = dateFormat.parse("15-03-2021");
+		autor.setNacimiento(pas);
+		autor.setNacionalidad("Frances");
+		autor.setNombreAutor("Arturo Puig");
+		autor.setId((long) 12);
+		
+		
+		libro.setAño(2005);
+		libro.setEditorial("planeta");
+		libro.setNombre("Frutos de su tiempo");
+		libro.setTipo(LibroTipo.ENSAYO);
+		
+		libro.setEstado(estadoCopia.BIBLIOTECA);
+		
+		libro.setAutor(autor);
+		
+		autor.pushlibro(libro);
 		
 		try {
 			b.alquilar(l.getnSocio(),b.obtenerCopia(16));
@@ -89,10 +116,11 @@ class LectorTest {
 			Lector lect = b.obtenerLector(l.getnSocio());
 			
 			try {
-				lect.agregarPrestamo(new Prestamo(lect,b.obtenerCopia(15)));
-			} catch (ParseException e) {
-				fail("Fecha mal formada");
-			}catch (NullPointerException e) {
+				Prestamo p = new Prestamo();
+				//p.setCopia(libro);
+				lect.agregarPrestamo(p);
+				
+			} catch (NullPointerException e) {
 				fail("indice de prestamos inexistente");
 			}
 		} catch (LectorIdException e) {

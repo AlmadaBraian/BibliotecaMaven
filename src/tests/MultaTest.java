@@ -22,10 +22,19 @@ class MultaTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		l = new Lector(518, "Bartolo Gimenez", "47369502", "Darragueira 5840");
+		l = new Lector();
+		l.setDireccion("Darragueira 5840");
+		l.setNombre("Braian Almada");
+		l.setTelefono("47369501");
+		
 		inicio = dateFormat.parse("16-02-2021");
 		fin = dateFormat.parse("16-03-2021");
-		multa = new Multa(l, inicio, fin);
+		
+		multa = new Multa();
+		multa.setfFin(fin);
+		multa.setfInicio(inicio);
+		
+		l.setMulta(multa);
 	}
 
 	@Test

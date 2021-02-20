@@ -6,25 +6,69 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class Multa extends Lector{
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
+@Entity
+public class Multa{
 	
+	/**
+	 * 
+	 */
+
+	private static final long serialVersionUID = 101139859434992764L;
+	@Column(name="multa_id")@Id@GeneratedValue(strategy = GenerationType.AUTO)
+	private long Id;
+	@Column
 	private Date fInicio;
+	@Column
 	private Date fFin;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "n_socio")
+	private Lector lector;
+    
 	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	
 	
 
-	public Multa(Lector l, Date fInicio, Date fFin) {
-		super(l.getnSocio(), l.getNombre(), l.getTelefono(), l.getDireccion());
-		this.fInicio = fInicio;
-		this.fFin = fFin;
+	public Multa() {
+		super();
+	}
+	
+	
+	
+	public long getId() {
+		return Id;
 	}
 
-	public Multa(Lector l,Date fInicio, int dias) throws ParseException {
-		super(l.getnSocio(), l.getNombre(), l.getTelefono(), l.getDireccion());
-		this.fInicio = fInicio;
-		this.fFin = sumarDiasFecha(fInicio, dias);
+
+
+	public void setId(long id) {
+		Id = id;
 	}
+
+
+
+	public Lector getLector() {
+		return lector;
+	}
+
+
+
+	public void setLector(Lector lector) {
+		this.lector = lector;
+	}
+
+
+
 	public Date getfInicio() {
 		return fInicio;
 	}
@@ -55,12 +99,6 @@ public class Multa extends Lector{
 
 	      String tmp = dateFormat.format(calendar.getTime());  
 	      return dateFormat.parse(tmp);
-	 }
-
-	@Override
-	public String toString() {
-		return "Lector multado: "+ this.getNombre() +" Multado el: " + dateFormat.format(fInicio) + ", Fin multa: " + dateFormat.format(fFin);
-	}
-	
+	 }	
 
 }

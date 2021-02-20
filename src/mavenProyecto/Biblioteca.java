@@ -129,13 +129,13 @@ public class Biblioteca <T>{
 			return null;
 		}
 		
-		public Lector obtenerLector(int id) throws LectorIdException{
+		public Lector obtenerLector(long l) throws LectorIdException{
 			try {
 				Iterator<Lector> it = lectores.iterator();
 				
 				while (it.hasNext()) {
 					Lector pe = it.next();
-					if (pe.getnSocio() == id) {
+					if (pe.getnSocio() == l) {
 						return pe;
 					}
 				}throw new LectorIdException("Id de lector inexistente");
@@ -158,9 +158,9 @@ public class Biblioteca <T>{
 			return this.arreglo;
 		}
 		
-		public void alquilar(int idLector, Copia copia) throws ParseException, LectorMultaException, LectorIdException, LectorExcedeAlquileresException, CopiaYaAlquiladaException {
+		public void alquilar(long l, Copia copia) throws ParseException, LectorMultaException, LectorIdException, LectorExcedeAlquileresException, CopiaYaAlquiladaException {
 			
-			Lector a = obtenerLector(idLector);
+			Lector a = obtenerLector(l);
 			Copia c = obtenerCopia(copia.getId());
 			
 			if (a != null) {
@@ -171,7 +171,7 @@ public class Biblioteca <T>{
 					
 				}else if(a.prestar()) {
 					if(c.getEstado() == estadoCopia.BIBLIOTECA) {
-						a.agregarPrestamo(new Prestamo(a,obtenerCopia(copia.getId())));
+						//a.agregarPrestamo(new Prestamo(a,obtenerCopia(copia.getId())));
 						modEstadoCopia(copia.getId(), estadoCopia.PRESTADO);
 					}else {
 						throw new CopiaYaAlquiladaException("La copia que desea alquilar ya esta alquilada o en reparacion");
@@ -188,9 +188,9 @@ public class Biblioteca <T>{
 			
 		}
 		
-		public void regresar (int idLector, int id, Date fecha) throws ParseException, LectorIdException, NullPointerException{
+		public void regresar (long l, int id, Date fecha) throws ParseException, LectorIdException, NullPointerException{
 			try {
-				Lector a = obtenerLector(idLector);
+				Lector a = obtenerLector(l);
 				a.devolver (id, fecha);
 				modEstadoCopia(id, estadoCopia.BIBLIOTECA);
 			} catch (NullPointerException e) {
@@ -278,15 +278,5 @@ public class Biblioteca <T>{
 			return null;
 		}
 		
-		public void checkVencimientoPrestamos() {
-			ArrayList<Prestamo> p = getPrestamos();
-			
-			for (Prestamo prestamo : p) {
-				if(prestamo.diasDif()>prestamo.getMaxDias()) {
-					modEstadoCopia(prestamo.getCopia().getId(), estadoCopia.RETRASO); 
-				}
-			}
-			
-		}
 
 }

@@ -1,43 +1,65 @@
 package mavenProyecto;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
 import Excepciones.LectorExcedeAlquileresException;
 
-public class Lector{
+@Entity
+public class Lector implements Serializable{
 	
-	private int nSocio;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7397198799032369360L;
+	@Column(name="n_socio")@Id@GeneratedValue(strategy = GenerationType.AUTO)
+	private long nSocio;
+	@Column
 	private String nombre;
+	@Column
 	private String telefono;
+	@Column
 	private String direccion;
+	@OneToOne(mappedBy = "lector", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@JoinColumn(name = "multa_id")
 	private Multa multa;
-	private ArrayList<Prestamo> prestamos = new ArrayList<Prestamo>();
-
-	public Lector(int nSocio, String nombre, String telefono, String direccion) {
-		this.nSocio = nSocio;
-		this.nombre = nombre;
-		this.telefono = telefono;
-		this.direccion = direccion;
-		this.multa = null;
+	
+	@OneToMany(targetEntity=Prestamo.class, mappedBy="lector", fetch=FetchType.EAGER)
+	private List<Prestamo> prestamos = new ArrayList<Prestamo>();
+	
+	public Lector() {
 	}
 	
-	public Lector(Lector l) {
-		this.nSocio = l.getnSocio();
-		this.nombre = l.getNombre();
-		this.telefono = l.getTelefono();
-		this.direccion = l.getDireccion();
-		this.multa = null;
+	
+
+
+	public void setMulta(Multa multa) {
+		this.multa = multa;
 	}
 
+	public void setPrestamos(ArrayList<Prestamo> prestamos) {
+		this.prestamos = prestamos;
+	}
 
-	public int getnSocio() {
+	public long getnSocio() {
 		return nSocio;
 	}
-	public void setnSocio(int nSocio) {
+	public void setnSocio(long nSocio) {
 		this.nSocio = nSocio;
 	}
 	public String getNombre() {
@@ -59,7 +81,7 @@ public class Lector{
 		this.direccion = direccion;
 	}
 	
-	public ArrayList<Prestamo> getPrestamos() {
+	public List<Prestamo> getPrestamos() {
 		
 		return this.prestamos;
 	}
@@ -117,8 +139,11 @@ public class Lector{
 	
 	private void multar(int dias) throws ParseException {
 		
-		this.multa = new Multa(this,new Date(), dias);
+		this.multa = new Multa();
+
 	}
+	
+	
 	
 
 	@Override
@@ -126,7 +151,7 @@ public class Lector{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((direccion == null) ? 0 : direccion.hashCode());
-		result = prime * result + nSocio;
+		result = (int) (prime * result + nSocio);
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result + ((telefono == null) ? 0 : telefono.hashCode());
 		return result;

@@ -17,6 +17,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -41,7 +42,6 @@ public class Copia implements Serializable{
 	@Column
 	private estadoCopia estado;
 	
-
 	public Copia() {
 		super();
 	}

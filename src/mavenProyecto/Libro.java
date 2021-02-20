@@ -1,6 +1,8 @@
 package mavenProyecto;
 
 import java.io.Serializable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Embeddable;
@@ -12,6 +14,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -32,9 +35,9 @@ public class Libro extends Copia implements Serializable{
 	private int año;
 	@Column
 	private String editorial;
-
-	@ManyToOne()
-    @JoinColumn(name = "autor_id")
+	
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "autor_id", referencedColumnName="autor_id")
     Autor autor;
 	
 
