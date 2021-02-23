@@ -11,15 +11,18 @@ import Excepciones.CopiaYaAlquiladaException;
 import Excepciones.LectorExcedeAlquileresException;
 import Excepciones.LectorIdException;
 import Excepciones.LectorMultaException;
+import jakarta.jws.WebParam;
 import jakarta.xml.ws.Endpoint;
+import servicios.BibliotecaServices;
+import servicios.CopiaServices;
 import servicios.LectorServices;
 
 public class Test {
 
 	public static void main(String[] args) throws ParseException, LectorMultaException, LectorIdException, LectorExcedeAlquileresException, CopiaYaAlquiladaException {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		/*SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		
-		Date pas = dateFormat.parse("15-03-2021");
+		String pas = "15-03-2021";
 		Date nacimiento = dateFormat.parse("10-01-1993");
 		
 		Lector l = new Lector();
@@ -36,8 +39,8 @@ public class Test {
 		
 		//Copia copia = new Copia();
 		
-		Date inicio = dateFormat.parse("16-02-2021");
-		Date fin = dateFormat.parse("16-03-2021");
+		String inicio = "16-02-2021";
+		String fin = "16-03-2021";
 		
 		
 		multa.setfFin(fin);
@@ -64,11 +67,9 @@ public class Test {
 		//libro.setId((long) 17);
 		libro.setAutor(autor);
 		
-		autor.pushlibro(libro);
+		autor.pushlibro(libro);/**
 		
 		//b.pushCopia(libro);
-		
-		Endpoint endPoint = Endpoint.publish("http://localhost:8080/LectorServices", new LectorServices());
 
 	
 		//List<Lector>lectores = b.findWithName("Braian Almada");
@@ -116,5 +117,7 @@ public class Test {
 		}
 
 	**/
+		
+		Endpoint endPoint = Endpoint.publish("http://localhost:8080/BibliotecaServices", new BibliotecaServices());
 	}
 }

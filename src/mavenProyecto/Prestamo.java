@@ -95,14 +95,14 @@ public class Prestamo implements Serializable{
 	public Date getInicio() {
 		return inicio;
 	}
-	public void setInicio(Date inicio) {
-		this.inicio = inicio;
+	public void setInicio(String inicio) throws ParseException {
+		this.inicio = dateFormat.parse(inicio);
 	}
 	public Date getFin() {
 		return fin;
 	}
-	public void setFin(Date fin) {
-		this.fin = fin;
+	public void setFin(String fin) throws ParseException {
+		this.fin = dateFormat.parse(fin);
 	}
 	public void setFin() throws ParseException {
 		this.fin = sumarDiasFecha(inicio, maxDias);

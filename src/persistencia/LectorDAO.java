@@ -11,6 +11,8 @@ import javax.persistence.Persistence;
 import org.hibernate.query.Query;
 
 import mavenProyecto.Lector;
+import mavenProyecto.LectorDTO;
+import mavenProyecto.Prestamo;
 
 public class LectorDAO {
 	
@@ -19,10 +21,11 @@ public class LectorDAO {
 	EntityManager em = managerFactory.createEntityManager();
 	EntityTransaction tran = em.getTransaction();
 
-	public void agregarLector(Lector l) {
+	public void agregarLector(LectorDTO lector) {
+
 		
 		tran.begin();
-		em.persist(l);
+		em.persist(lectorCons(lector));
 
 		tran.commit();
 		em.close();
@@ -30,10 +33,20 @@ public class LectorDAO {
 	
 	public ArrayList<Lector> consultarLectores() {
 		ArrayList<Lector> lectores = new ArrayList<Lector>();
-		javax.persistence.Query q = em.createQuery("SELECT nombre FROM lectores a GROUP BY n_socio");
+		javax.persistence.Query q = em.createQuery("SELECT a FROM Lector a GROUP BY n_socio");
 		@SuppressWarnings("unchecked")
 		List results = q.getResultList();
 		lectores.addAll(results);
 		return lectores;
 	}
+	
+	public Lector lectorCons(LectorDTO lector) {
+		Lector l = new Lector();
+		l.setDireccion(lector.getDireccion());
+		l.setNombre(lector.getNombre());
+		l.setTelefono(lector.getTelefono());
+		
+		return l;
+	}
+	
 }

@@ -7,12 +7,13 @@ import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import jakarta.jws.WebService;
 import mavenProyecto.Lector;
+import mavenProyecto.LectorDTO;
 import persistencia.LectorDAO;
 
 @WebService
 public class LectorServices {
 	@WebMethod(operationName="agregarLectorWS")
-	public boolean agregarLector(@WebParam(name="lector")Lector l) {
+	public boolean agregarLector(@WebParam(name="lector")LectorDTO l) {
 		LectorDAO dao = new LectorDAO();
 		try {
 			dao.agregarLector(l);
@@ -26,7 +27,7 @@ public class LectorServices {
 	@WebMethod(operationName="obtenerLectoresWS")
 	public ArrayList<Lector> obtenerLectores() {
 		LectorDAO dao = new LectorDAO();
-		ArrayList<Lector> lectores = new ArrayList();
+		ArrayList<Lector> lectores = new ArrayList<Lector>();
 		try {
 			lectores = dao.consultarLectores();
 		} catch (Exception e) {

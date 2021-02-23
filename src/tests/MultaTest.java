@@ -17,8 +17,8 @@ class MultaTest {
 	Lector l;
 	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	
-	Date inicio;
-	Date fin;
+	String inicio;
+	String fin;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -27,8 +27,8 @@ class MultaTest {
 		l.setNombre("Braian Almada");
 		l.setTelefono("47369501");
 		
-		inicio = dateFormat.parse("16-02-2021");
-		fin = dateFormat.parse("16-03-2021");
+		inicio = "16-02-2021";
+		fin = "16-03-2021";
 		
 		multa = new Multa();
 		multa.setfFin(fin);
@@ -39,8 +39,8 @@ class MultaTest {
 
 	@Test
 	final void testDiasDif() throws ParseException {
-		fin = dateFormat.parse("19-02-2021");
-		int res = multa.diasDif(inicio, fin);
+		Date f = dateFormat.parse("19-02-2021");
+		int res = multa.diasDif(dateFormat.parse(inicio), f);
 		int esperado = 3;
 		
 		assertEquals(esperado, res, "Fallo la resta de dias");
@@ -49,7 +49,7 @@ class MultaTest {
 
 	@Test
 	final void testSumarDiasFecha() throws ParseException {
-		Date res = multa.sumarDiasFecha(inicio, 4);
+		Date res = multa.sumarDiasFecha(dateFormat.parse(inicio), 4);
 		Date esperado = dateFormat.parse("20-02-2021");
 		
 		assertEquals(esperado, res, "Fecha no esperada");

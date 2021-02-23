@@ -2,6 +2,7 @@ package mavenProyecto;
 
 import java.io.Serializable;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -39,7 +40,7 @@ public class Lector implements Serializable{
 	@Column
 	private String direccion;
 	@Column(name="multa")
-	boolean multado;
+	private boolean multado;
 	@OneToOne(mappedBy = "lector", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	@JoinColumn(name = "multa_id")
 	private Multa multa;
@@ -49,7 +50,6 @@ public class Lector implements Serializable{
 	
 	public Lector() {
 	}
-	
 	
 
 
@@ -144,9 +144,9 @@ public class Lector implements Serializable{
 	}
 	
 	private void multar(int dias) throws ParseException {
-		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		Multa m = new Multa();
-		m.setfInicio(new Date());
+		m.setfInicio(dateFormat.format(new Date()));
 		m.setfFin(dias);
 		m.setLector(this);
 		

@@ -29,6 +29,14 @@ public class Biblioteca <T>{
 		
 		
 		
+		public ArrayList<Copia> getArreglo() {
+			return arreglo;
+		}
+
+		public void setArreglo(ArrayList<Copia> arreglo) {
+			this.arreglo = arreglo;
+		}
+
 		public void poopCopias(int id) {
 			
 			ArrayList<Copia> copias = new ArrayList<Copia>();
@@ -182,10 +190,11 @@ public class Biblioteca <T>{
 				}else if(a.prestar()) {
 					if(c.getEstado() == estadoCopia.BIBLIOTECA) {
 						//a.agregarPrestamo(new Prestamo(a,obtenerCopia(copia.getId())));
+						SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 						modEstadoCopia(copia.getId(), estadoCopia.PRESTADO);
 						Prestamo p = new Prestamo();
 						p.setCopia(copia);
-						p.setInicio(new Date());
+						p.setInicio(dateFormat.format(new Date()));
 						p.setFin();
 						p.setLector(a);
 						a.agregarPrestamo(p);

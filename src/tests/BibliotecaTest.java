@@ -43,9 +43,9 @@ class BibliotecaTest {
 		libro.setAño(2005);
 		libro.setEditorial("planeta");
 		libro.setNombre("Frutos de su tiempo");
-		libro.setTipo(LibroTipo.ENSAYO);
+		//libro.setTipo("ENSAYO");
 		
-		libro.setEstado(estadoCopia.BIBLIOTECA);
+		//libro.setEstado("BIBLIOTECA");
 		
 		libro.setAutor(autor);
 		
@@ -57,9 +57,9 @@ class BibliotecaTest {
 		libro2.setAño(2005);
 		libro2.setEditorial("planeta");
 		libro2.setNombre("Frutos de su tiempo");
-		libro2.setTipo(LibroTipo.ENSAYO);
+		//libro2.setTipo("ENSAYO");
 		
-		libro2.setEstado(estadoCopia.BIBLIOTECA);
+		//libro2.setEstado("BIBLIOTECA");
 		
 		libro2.setAutor(autor);
 		
@@ -71,9 +71,9 @@ class BibliotecaTest {
 		libro3.setAño(2005);
 		libro3.setEditorial("planeta");
 		libro3.setNombre("Frutos de su tiempo");
-		libro3.setTipo(LibroTipo.ENSAYO);
+		//libro3.setTipo("ENSAYO");
 		
-		libro3.setEstado(estadoCopia.BIBLIOTECA);
+		//libro3.setEstado("BIBLIOTECA");
 		
 		libro3.setAutor(autor);
 		
@@ -85,9 +85,9 @@ class BibliotecaTest {
 		libro4.setAño(2005);
 		libro4.setEditorial("planeta");
 		libro4.setNombre("Frutos de su tiempo");
-		libro4.setTipo(LibroTipo.ENSAYO);
+		//libro4.setTipo("ENSAYO");
 		
-		libro4.setEstado(estadoCopia.BIBLIOTECA);
+		//libro4.setEstado("BIBLIOTECA");
 		
 		libro4.setAutor(autor);
 		

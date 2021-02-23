@@ -74,14 +74,14 @@ public class Multa{
 	public Date getfInicio() {
 		return fInicio;
 	}
-	public void setfInicio(Date fInicio) {
-		this.fInicio = fInicio;
+	public void setfInicio(String fInicio) throws ParseException {
+		this.fInicio = dateFormat.parse(fInicio);
 	}
 	public Date getfFin() {
 		return fFin;
 	}
-	public void setfFin(Date fFin) {
-		this.fFin = fFin;
+	public void setfFin(String fFin) throws ParseException {
+		this.fFin = dateFormat.parse(fFin);
 	}
 	
 	public void setfFin(int dias) throws ParseException {
