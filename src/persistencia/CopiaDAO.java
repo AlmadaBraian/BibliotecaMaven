@@ -1,6 +1,7 @@
 package persistencia;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -26,13 +27,19 @@ public class CopiaDAO {
 		return copias;
 	}
 	
-	/*public Object obtenerCopia(long id) {
-		Object c = new Libro();
-		javax.persistence.Query q = em.createQuery("SELECT a FROM Libro a WHERE a.id = :id");
-		q.setParameter("id", id);
-		c=q.getSingleResult();
-		return c;
-	}*/
+	public Libro obtenerCopia(long id) {
+		ArrayList<Libro>l = consultarCopias();
+		Iterator<Libro> it = l.iterator();
+		
+		while (it.hasNext()) {
+			Libro pe = it.next();
+			if (pe.getId()==id) {
+				return pe;
+			}
+			}
+
+		return null;
+	}
 	
 	public void agregarCopia(Libro c) {
 

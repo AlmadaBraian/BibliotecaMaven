@@ -36,5 +36,10 @@ public class LectorServices {
 		}
 		return lectores;
 	}
+	@WebMethod(operationName="obtenerLectoresWS")
+	public Lector obtenerLector(@WebParam(name="lectorId")long id) {
+		LectorDAO dao = new LectorDAO();
+		return dao.obtenerLector(id);
+	}
 
 }

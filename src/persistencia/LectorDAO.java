@@ -1,6 +1,7 @@
 package persistencia;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -12,6 +13,7 @@ import org.hibernate.query.Query;
 
 import mavenProyecto.Lector;
 import mavenProyecto.LectorDTO;
+import mavenProyecto.Libro;
 import mavenProyecto.Prestamo;
 
 public class LectorDAO {
@@ -47,6 +49,20 @@ public class LectorDAO {
 		l.setTelefono(lector.getTelefono());
 		
 		return l;
+	}
+	
+	public Lector obtenerLector(long id) {
+		ArrayList<Lector>l = consultarLectores();
+		Iterator<Lector> it = l.iterator();
+		
+		while (it.hasNext()) {
+			Lector pe = it.next();
+			if (pe.getnSocio()==id) {
+				return pe;
+			}
+		}
+
+		return null;
 	}
 	
 }

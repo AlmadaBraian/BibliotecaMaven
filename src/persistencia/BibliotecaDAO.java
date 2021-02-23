@@ -9,6 +9,7 @@ import javax.persistence.Persistence;
 import mavenProyecto.Biblioteca;
 import mavenProyecto.Copia;
 import mavenProyecto.Libro;
+import mavenProyecto.estadoCopia;
 
 
 public class BibliotecaDAO {
@@ -40,11 +41,14 @@ public class BibliotecaDAO {
 		b.setArreglo(copias);
 	}
 	
-	/*public void  modEstadoCopia(Libro c, estadoCopia estado) {
-		
+	public void  modEstadoCopia(Libro c, estadoCopia estado) {
+		em.getTransaction().begin();
 		javax.persistence.Query q = em.createQuery("UPDATE Copia e SET e.estado = :est "+ "WHERE e.id = :id");
 		q.setParameter("est", estado);
 		q.setParameter("id", c.getId());
-	}*/
+		int rowsUpdated = q.executeUpdate();
+		em.getTransaction().commit();
+        em.close();
+	}
 
 }

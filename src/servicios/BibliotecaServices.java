@@ -27,12 +27,12 @@ public class BibliotecaServices {
 		}
 		return b;
 	}
-	/*@WebMethod(operationName="modificarEstadoCopiaWS")
+	@WebMethod(operationName="modificarEstadoCopiaWS")
 	public void modEstadoCopia(@WebParam(name="copiaID")long c, @WebParam(name="estadoCopia")estadoCopia e) {
 		CopiaDAO daoc= new CopiaDAO();
-		Libro copia =(Libro) daoc.obtenerCopia(c);
+		Libro copia =daoc.obtenerCopia(c);
 		BibliotecaDAO dao = new BibliotecaDAO();
 		dao.modEstadoCopia(copia, e);
-	}*/
+	}
 
 }

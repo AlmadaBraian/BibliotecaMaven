@@ -37,11 +37,11 @@ public class CopiaServices {
 		}
 		return copias;
 	}
-	/*@WebMethod(operationName="obtenerCopiaWS")
+	@WebMethod(operationName="obtenerCopiaWS")
 	public Copia obtenerCopia(@WebParam(name="copiaid")long id) {
 		CopiaDAO dao = new CopiaDAO();
-		Libro c = (Libro) dao.obtenerCopia(id);
+		Libro c = dao.obtenerCopia(id);
 		return c;	
-	}*/
+	}
 
 }
