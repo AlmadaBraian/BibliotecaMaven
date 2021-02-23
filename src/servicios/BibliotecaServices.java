@@ -8,6 +8,7 @@ import jakarta.jws.WebService;
 import mavenProyecto.Biblioteca;
 import mavenProyecto.Copia;
 import mavenProyecto.Lector;
+import mavenProyecto.LectorDTO;
 import mavenProyecto.Libro;
 import mavenProyecto.estadoCopia;
 import persistencia.BibliotecaDAO;
@@ -44,9 +45,25 @@ public class BibliotecaServices {
 	}
 	
 	@WebMethod(operationName="obtenerCopiaWS")
-	public Libro obtenerCopia(@WebParam(name="lectorID")long id) {
+	public Libro obtenerCopia(@WebParam(name="copiaID")long id) {
 		CopiaDAO cdao = new CopiaDAO();
 		return cdao.obtenerCopia(id);
+	}
+	
+	@WebMethod(operationName="agregarCopiaWS")
+	public void agregarCopia(@WebParam(name="copia")Libro l) {
+		CopiaDAO cdao = new CopiaDAO();
+		cdao.agregarCopia(l);
+	}
+	
+	@WebMethod(operationName="agregarLectorWS")
+	public void agregarLector(@WebParam(name="lector")Lector l) {
+		LectorDAO ldao = new LectorDAO();
+		LectorDTO aux = new LectorDTO();
+		aux.setDireccion(l.getDireccion());
+		aux.setNombre(l.getNombre());
+		aux.setTelefono(l.getTelefono());
+		ldao.agregarLector(aux);
 	}
 
 

@@ -36,18 +36,40 @@ public class CopiaDAO {
 			if (pe.getId()==id) {
 				return pe;
 			}
-			}
+		}
 
 		return null;
 	}
 	
 	public void agregarCopia(Libro c) {
+		boolean check = false;
+		if(c.getEditorial()==null && c.getNombre()==null) {
+			check=true;
+		}
+		if (check==false) {
+			tran.begin();
+			em.persist(c);
+			tran.commit();
+			
+		}
+		eliminarNulos();
 
+	}
+	
+	public void eliminarNulos() {
+		ArrayList<Libro> libros = consultarCopias();
+		Iterator<Libro> it = libros.iterator();
 		
-		tran.begin();
-		em.persist(c);
-
-		tran.commit();
+		while (it.hasNext()) {
+			Libro pe = it.next();
+			if (pe.getNombre()==null && pe.getEditorial()==null) {
+				Libro l = em.find(Libro.class, pe.getId());
+				em.getTransaction().begin();
+				em.remove(l);
+				em.getTransaction().commit();
+				
+			}
+		}
 		em.close();
 	}
 
