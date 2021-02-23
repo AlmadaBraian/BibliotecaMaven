@@ -103,10 +103,10 @@ class BibliotecaTest {
 	@Test
 	final void testPrestarCuatro() throws CopiaYaAlquiladaException{
 		try {
-			b.alquilar(l.getnSocio(),b.obtenerCopia(15));
-			b.alquilar(l.getnSocio(),b.obtenerCopia(16));
-			b.alquilar(l.getnSocio(),b.obtenerCopia(17));
-			b.alquilar(l.getnSocio(),b.obtenerCopia(18));
+			b.alquilar(l,b.obtenerCopia(15));
+			b.alquilar(l,b.obtenerCopia(16));
+			b.alquilar(l,b.obtenerCopia(17));
+			b.alquilar(l,b.obtenerCopia(18));
 			
 		} catch (ParseException e) {
 			fail("Error de test - Fecha mal formada");
@@ -133,9 +133,9 @@ class BibliotecaTest {
 		Lector tmp = b.obtenerLector(l2.getnSocio());
 
 		try {
-			b.alquilar(tmp.getnSocio(),b.obtenerCopia(16));
-			b.alquilar(tmp.getnSocio(),b.obtenerCopia(15));
-			b.alquilar(tmp.getnSocio(),b.obtenerCopia(17));
+			b.alquilar(tmp,b.obtenerCopia(16));
+			b.alquilar(tmp,b.obtenerCopia(15));
+			b.alquilar(tmp,b.obtenerCopia(17));
 			
 		}catch (ParseException e) {
 			
@@ -166,10 +166,10 @@ class BibliotecaTest {
         
        
         try {
-        	b.alquilar(l.getnSocio(),c);
+        	b.alquilar(l,c);
         	List<Prestamo>prestamos = tmp.getPrestamos();
         	b.regresar(tmp.getnSocio(), prestamos.get(0), pas);
-        	b.alquilar(l.getnSocio(),c);
+        	b.alquilar(l,c);
         	
 		} catch (ParseException e) {
 			fail("fecha mal formada");
@@ -193,9 +193,9 @@ class BibliotecaTest {
 		
     	
 		try {
-			b.alquilar(tmp.getnSocio(),b.obtenerCopia(16));
-			b.alquilar(tmp.getnSocio(),b.obtenerCopia(15));
-			b.alquilar(tmp.getnSocio(),b.obtenerCopia(17));
+			b.alquilar(tmp,b.obtenerCopia(16));
+			b.alquilar(tmp,b.obtenerCopia(15));
+			b.alquilar(tmp,b.obtenerCopia(17));
 			
 		}catch (ParseException e) {
 			
@@ -212,7 +212,7 @@ class BibliotecaTest {
 		}
 		
 		try {
-			b.alquilar(tmp2.getnSocio(),b.obtenerCopia(17));
+			b.alquilar(tmp2,b.obtenerCopia(17));
 			
 		}catch (ParseException e) {
 			fail("fecha mal formada");

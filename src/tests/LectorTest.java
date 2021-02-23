@@ -86,7 +86,7 @@ class LectorTest {
 		autor.pushlibro(libro);
 		
 		try {
-			b.alquilar(l.getnSocio(),b.obtenerCopia(16));
+			b.alquilar(l,b.obtenerCopia(16));
 		} catch (ParseException e) {
 			fail("Fecha mal formada");
 		} catch (LectorMultaException e) {
@@ -117,7 +117,7 @@ class LectorTest {
 	@Test
 	final void testAgregarPrestamo() {
 		try {
-			b.alquilar(l.getnSocio(),b.obtenerCopia(16));
+			b.alquilar(l,b.obtenerCopia(16));
 		} catch (ParseException e) {
 			fail("Fecha mal formada");
 		} catch (LectorMultaException e) {
@@ -151,7 +151,7 @@ class LectorTest {
 	final void testPrestarConMulta() throws PrestamoExeption, LectorExcedeAlquileresException, CopiaYaAlquiladaException {
 		
 		try {
-			b.alquilar(l.getnSocio(),b.obtenerCopia(16));
+			b.alquilar(l,b.obtenerCopia(16));
 		} catch (ParseException e) {
 			fail("Fecha mal formada");
 		} catch (LectorMultaException e) {
@@ -172,7 +172,7 @@ class LectorTest {
 				
 				b.regresar(lect.getnSocio(), lect.getPrestamos().get(0), pas);
 				
-				b.alquilar(l.getnSocio(),b.obtenerCopia(16));
+				b.alquilar(l,b.obtenerCopia(16));
 				if(lect.prestar()) {
 					fail("Deja alquilar a pesar de estar multado");
 				}
@@ -189,9 +189,9 @@ class LectorTest {
 	@Test
 	final void testPrestarConExcesoPrestamos() throws ParseException, LectorMultaException, CopiaYaAlquiladaException {
 		try {
-			b.alquilar(l.getnSocio(),b.obtenerCopia(16));
-			b.alquilar(l.getnSocio(),b.obtenerCopia(17));
-			b.alquilar(l.getnSocio(),b.obtenerCopia(18));
+			b.alquilar(l,b.obtenerCopia(16));
+			b.alquilar(l,b.obtenerCopia(17));
+			b.alquilar(l,b.obtenerCopia(18));
 			
 		} catch (ParseException e) {
 			fail("Fecha mal formada");
@@ -213,7 +213,7 @@ class LectorTest {
 				if(lect.prestar()) {
 					fail("Deja alquilar a pesar de estar excedido en prestamos");
 				}
-				b.alquilar(l.getnSocio(),b.obtenerCopia(18));
+				b.alquilar(l,b.obtenerCopia(18));
 			}catch (LectorExcedeAlquileresException e) {
 				fail("Lector exede alquileres permitidos");
 			}catch (NullPointerException e) {

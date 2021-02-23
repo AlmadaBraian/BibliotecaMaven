@@ -76,7 +76,6 @@ public class Biblioteca <T>{
 				tmp.add(pe);
 			}
 			tmp.add(e);
-			persistir(e);
 			this.lectores.clear();
 			this.lectores.addAll(tmp);
 
@@ -158,9 +157,9 @@ public class Biblioteca <T>{
 			
 		}
 		
-		public Multa obtenerMultaLector (int id) throws LectorIdException {
+		public Multa obtenerMultaLector (Lector lector) throws LectorIdException {
 			
-			Lector l = obtenerLector(id);
+			Lector l = obtenerLector(lector.getnSocio());
 			return l.getMulta();
 			
 		}
@@ -169,9 +168,9 @@ public class Biblioteca <T>{
 			return this.arreglo;
 		}
 		
-		public void alquilar(long l, Copia copia) throws ParseException, LectorMultaException, LectorIdException, LectorExcedeAlquileresException, CopiaYaAlquiladaException {
+		public void alquilar(Lector lector, Copia copia) throws ParseException, LectorMultaException, LectorIdException, LectorExcedeAlquileresException, CopiaYaAlquiladaException {
 			
-			Lector a = obtenerLector(l);
+			Lector a = obtenerLector(lector.getnSocio());
 			Copia c = obtenerCopia(copia.getId());
 			
 			if (a != null) {
@@ -270,12 +269,8 @@ public class Biblioteca <T>{
 				this.libros.clear();
 				this.libros.addAll(tmp);
 			}
-			persistir(l);
-			Copia c = new Copia();
-			c.setEstado(l.getEstado());
-			c.setId(l.getId());
 			
-			arreglo.add(c);
+			arreglo.add(getCopia(l));
 			
 
 		}
@@ -318,28 +313,14 @@ public class Biblioteca <T>{
 
 		}
 		
-		public void persistir(Object o) {
-			EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("ejsHibernate");
-			
-			EntityManager em = managerFactory.createEntityManager();
-			EntityTransaction tran = em.getTransaction();
-			tran.begin();
-			em.persist(o);
-
-			tran.commit();
-			em.close();
-		}
 		
-		public List findWithName(String name) {
-			EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("ejsHibernate");
-			EntityManager em = managerFactory.createEntityManager();
-			
-			return em.createQuery(
-			"SELECT c FROM Lector c WHERE c.nombre LIKE :nombre")
-			.setParameter("nombre", name)
-			.setMaxResults(10)
-			.getResultList();
-			}
+		public Copia getCopia(Libro l) {
+			Copia c = new Copia();
+			c.setEstado(l.getEstado());
+			c.setId(l.getId());
+			return c;
+		}
+
 		
 
 }
