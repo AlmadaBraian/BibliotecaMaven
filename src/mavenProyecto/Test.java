@@ -1,14 +1,18 @@
 package mavenProyecto;
 
 import java.text.ParseException;
+import org.hibernate.Session;
+ 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 import Excepciones.CopiaYaAlquiladaException;
 import Excepciones.LectorExcedeAlquileresException;
@@ -35,6 +39,8 @@ public class Test {
 		
 		Prestamo p = new Prestamo();
 		
+		//Copia copia = new Copia();
+		
 		Date inicio = dateFormat.parse("16-02-2021");
 		Date fin = dateFormat.parse("16-03-2021");
 		
@@ -60,39 +66,33 @@ public class Test {
 		
 		libro.setEstado(estadoCopia.BIBLIOTECA);
 		
+		
 		libro.setAutor(autor);
 		
 		autor.pushlibro(libro);
 		
-		p.setFin(fin);
-		p.setInicio(inicio);
-		p.setLector(l);
-		p.setCopia(libro);
-		
-		multa.setLector(l);
-		
-		l.agregarPrestamo(p);
-		l.setMulta(multa);
-		
+		b.pushCopia(libro);
 
+	
+		//List<Lector>lectores = b.findWithName("Braian Almada");
 		
+		//System.out.println(lectores.get(0).getNombre());
+		/**
 		EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("ejsHibernate");
 		
 		EntityManager em = managerFactory.createEntityManager();
 		EntityTransaction tran = em.getTransaction();
+		
 		tran.begin();
 		em.persist(l);
-		em.persist(p);
-		em.persist(multa);
 		tran.commit();
-		em.close();
+		em.close();**/
 
 		
 		b.pushLectores(l);
-		b.pushLectores(l2);
 		b.stock();
 		
-
+		
 		
 		System.out.println("\n");
 		
@@ -113,8 +113,13 @@ public class Test {
 		for ( Multa m : b.getMultas()) {
 			System.out.println(m.toString()+"\n");
 		}
+		EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("ejsHibernate");
+		
+		EntityManager em = managerFactory.createEntityManager();
+		
+		List<Lector> lectores = (List<Lector>)em.createQuery("SELECT c FROM lector c").getResultList(); 
 
-	
+		System.out.println(lectores.get(0).getNombre());
 	}
 
 }

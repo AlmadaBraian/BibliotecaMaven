@@ -17,10 +17,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import Excepciones.LectorExcedeAlquileresException;
+import Excepciones.PrestamoExeption;
 
 @Entity
+@Table(name="lectores")
 public class Lector implements Serializable{
 	
 	/**
@@ -35,6 +38,8 @@ public class Lector implements Serializable{
 	private String telefono;
 	@Column
 	private String direccion;
+	@Column(name="multa")
+	boolean multado;
 	@OneToOne(mappedBy = "lector", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	@JoinColumn(name = "multa_id")
 	private Multa multa;
@@ -50,6 +55,7 @@ public class Lector implements Serializable{
 
 	public void setMulta(Multa multa) {
 		this.multa = multa;
+		this.multado=true;
 	}
 
 	public void setPrestamos(ArrayList<Prestamo> prestamos) {
@@ -90,25 +96,25 @@ public class Lector implements Serializable{
 		return multa;
 	}
 	
-	public void devolver (int id, Date fechaAct) throws ParseException{
-		try {
-			Prestamo p = obtenerPrestamo(id);
-			
+	public void devolver (Prestamo p, Date fechaAct) throws ParseException, PrestamoExeption{
+		
+		int i = obtenerIndicePrestamo(p);
+		if(i>=0) {
 			if (p.diasDif(fechaAct)>0) {
 				multar(p.diasDif(fechaAct)*2);
 			}
 			
-			borrarPrestamo(id);
-			
-		} catch (NullPointerException e) {
-			throw new NullPointerException("El prestamos solicitado no existe");
+			borrarPrestamo(i);
+			this.multado=false;
 		}
+		else
+			throw new PrestamoExeption("El prestamos solicitado no existe");
 		
 	}
 	
 	
 	public void agregarPrestamo(Prestamo p) {
-		boolean b =false;
+		
 		ArrayList<Prestamo> tmp = new ArrayList<Prestamo>();
 		
 		Iterator<Prestamo> it = prestamos.iterator();
@@ -139,7 +145,13 @@ public class Lector implements Serializable{
 	
 	private void multar(int dias) throws ParseException {
 		
-		this.multa = new Multa();
+		Multa m = new Multa();
+		m.setfInicio(new Date());
+		m.setfFin(dias);
+		m.setLector(this);
+		
+		this.setMulta(m);
+		
 
 	}
 	
@@ -187,15 +199,13 @@ public class Lector implements Serializable{
 		return true;
 	}
 	
-	public Prestamo obtenerPrestamo(int index) {
-		try {			
-			Prestamo p = prestamos.get(index);
-			return p;
-		} catch (IndexOutOfBoundsException e) {
-			
-			throw new NullPointerException("El prestamos solicitado no existe");
+	public int obtenerIndicePrestamo(Prestamo p) {
+		for (int i=0; i<prestamos.size();i++) {
+			if(prestamos.get(i).getPrestamoId()==p.getPrestamoId()) {
+				return i;
+			}
 		}
-		
+		return -1;
 		
 	}
 	
@@ -217,5 +227,14 @@ public class Lector implements Serializable{
 		this.prestamos.clear();
 		this.prestamos.addAll(lista);
 	}
+
+
+
+
+	public void setPrestamos(List<Prestamo> prestamos) {
+		this.prestamos = prestamos;
+	}
+	
+	
 	
 }

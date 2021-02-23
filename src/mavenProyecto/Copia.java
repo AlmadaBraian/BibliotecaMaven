@@ -22,7 +22,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
-@Table (name="copias")
+@Table(name="copias")
 public class Copia implements Serializable{
 
 	/**
@@ -46,14 +46,16 @@ public class Copia implements Serializable{
 		super();
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 
 
 	public long getId() {
 		return id;
 	}
-	public void setId(long id) {
-		this.id = id;
-	}
+
 	public estadoCopia getEstado() {
 		return estado;
 	}

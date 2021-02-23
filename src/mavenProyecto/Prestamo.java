@@ -17,8 +17,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="prestamos")
 public class Prestamo implements Serializable{
 	
 	/**
@@ -70,6 +72,16 @@ public class Prestamo implements Serializable{
 	}
 
 
+	public long getPrestamoId() {
+		return prestamoId;
+	}
+
+
+	public void setPrestamoId(long prestamoId) {
+		this.prestamoId = prestamoId;
+	}
+
+
 	public int getMaxDias() {
 		return maxDias;
 	}
@@ -91,6 +103,9 @@ public class Prestamo implements Serializable{
 	}
 	public void setFin(Date fin) {
 		this.fin = fin;
+	}
+	public void setFin() throws ParseException {
+		this.fin = sumarDiasFecha(inicio, maxDias);
 	}
 	public Copia getCopia() {
 		return copia;

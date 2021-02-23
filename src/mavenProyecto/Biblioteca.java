@@ -7,10 +7,16 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
 import Excepciones.CopiaYaAlquiladaException;
 import Excepciones.LectorExcedeAlquileresException;
 import Excepciones.LectorIdException;
 import Excepciones.LectorMultaException;
+import Excepciones.PrestamoExeption;
 
 public class Biblioteca <T>{
 		
@@ -19,6 +25,9 @@ public class Biblioteca <T>{
 		private ArrayList<Lector> lectores = new ArrayList<Lector>();
 		
 		private ArrayList<Libro> libros = new ArrayList<Libro>();
+		
+		
+		
 		
 		public void poopCopias(int id) {
 			
@@ -67,8 +76,10 @@ public class Biblioteca <T>{
 				tmp.add(pe);
 			}
 			tmp.add(e);
+			persistir(e);
 			this.lectores.clear();
 			this.lectores.addAll(tmp);
+
 		}
 		
 		
@@ -173,6 +184,14 @@ public class Biblioteca <T>{
 					if(c.getEstado() == estadoCopia.BIBLIOTECA) {
 						//a.agregarPrestamo(new Prestamo(a,obtenerCopia(copia.getId())));
 						modEstadoCopia(copia.getId(), estadoCopia.PRESTADO);
+						Prestamo p = new Prestamo();
+						p.setCopia(copia);
+						p.setInicio(new Date());
+						p.setFin();
+						p.setLector(a);
+						a.agregarPrestamo(p);
+						
+								
 					}else {
 						throw new CopiaYaAlquiladaException("La copia que desea alquilar ya esta alquilada o en reparacion");
 					}
@@ -188,13 +207,15 @@ public class Biblioteca <T>{
 			
 		}
 		
-		public void regresar (long l, int id, Date fecha) throws ParseException, LectorIdException, NullPointerException{
+		public void regresar (long l, Prestamo p, Date fecha) throws ParseException, LectorIdException, PrestamoExeption{
 			try {
 				Lector a = obtenerLector(l);
-				a.devolver (id, fecha);
+				a.obtenerIndicePrestamo(p);
+				a.devolver (p, fecha);
+				long id = p.getCopia().getId();
 				modEstadoCopia(id, estadoCopia.BIBLIOTECA);
-			} catch (NullPointerException e) {
-				System.out.println(e);
+			} catch (PrestamoExeption e) {
+				throw new PrestamoExeption("El prestamos solicitado no existe");
 			}
 
 		}
@@ -225,7 +246,7 @@ public class Biblioteca <T>{
 			return multas;
 		}
 		
-		public void pushLibro(Libro l){
+		public void pushCopia(Libro l){
 			boolean b = false;
 			
 			ArrayList<Libro> tmp = new ArrayList<Libro>();
@@ -249,6 +270,13 @@ public class Biblioteca <T>{
 				this.libros.clear();
 				this.libros.addAll(tmp);
 			}
+			persistir(l);
+			Copia c = new Copia();
+			c.setEstado(l.getEstado());
+			c.setId(l.getId());
+			
+			arreglo.add(c);
+			
 
 		}
 		
@@ -277,6 +305,41 @@ public class Biblioteca <T>{
 			}
 			return null;
 		}
+		
+
+		public void checkVencimientoPrestamos() {
+			ArrayList<Prestamo> p = getPrestamos();
+
+			for (Prestamo prestamo : p) {
+				if(prestamo.diasDif()>prestamo.getMaxDias()) {
+					modEstadoCopia(prestamo.getCopia().getId(), estadoCopia.RETRASO); 
+				}
+			}
+
+		}
+		
+		public void persistir(Object o) {
+			EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("ejsHibernate");
+			
+			EntityManager em = managerFactory.createEntityManager();
+			EntityTransaction tran = em.getTransaction();
+			tran.begin();
+			em.persist(o);
+
+			tran.commit();
+			em.close();
+		}
+		
+		public List findWithName(String name) {
+			EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("ejsHibernate");
+			EntityManager em = managerFactory.createEntityManager();
+			
+			return em.createQuery(
+			"SELECT c FROM Lector c WHERE c.nombre LIKE :nombre")
+			.setParameter("nombre", name)
+			.setMaxResults(10)
+			.getResultList();
+			}
 		
 
 }

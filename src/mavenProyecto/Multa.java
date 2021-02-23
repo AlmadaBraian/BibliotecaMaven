@@ -15,8 +15,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="multas")
 public class Multa{
 	
 	/**
@@ -82,6 +84,10 @@ public class Multa{
 		this.fFin = fFin;
 	}
 	
+	public void setfFin(int dias) throws ParseException {
+		this.fFin = sumarDiasFecha(dias);
+	}
+	
 	public int diasDif(Date inicio, Date fin) {
 	    long startTime = inicio.getTime();
 	    long endTime = fin.getTime();
@@ -94,6 +100,17 @@ public class Multa{
 	      Calendar calendar = Calendar.getInstance();
 
 	      calendar.setTime(fecha); // Configuramos la fecha que se recibe
+
+	      calendar.add(Calendar.DAY_OF_YEAR, dias);  // numero de días a añadir, o restar en caso de días<0
+
+	      String tmp = dateFormat.format(calendar.getTime());  
+	      return dateFormat.parse(tmp);
+	 }
+	 public Date sumarDiasFecha(int dias) throws ParseException{
+
+	      Calendar calendar = Calendar.getInstance();
+
+	      calendar.setTime(fInicio); // Configuramos la fecha que se recibe
 
 	      calendar.add(Calendar.DAY_OF_YEAR, dias);  // numero de días a añadir, o restar en caso de días<0
 

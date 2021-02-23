@@ -13,6 +13,7 @@ import Excepciones.CopiaYaAlquiladaException;
 import Excepciones.LectorExcedeAlquileresException;
 import Excepciones.LectorIdException;
 import Excepciones.LectorMultaException;
+import Excepciones.PrestamoExeption;
 import mavenProyecto.Autor;
 import mavenProyecto.Biblioteca;
 import mavenProyecto.Copia;
@@ -37,14 +38,33 @@ class LectorTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
+		Date nacimiento = dateFormat.parse("10-01-1993");
+		Autor autor = new Autor();
+		autor.setNacimiento(nacimiento);
+		autor.setNacionalidad("Frances");
+		autor.setNombreAutor("Arturo Puig");
 		
+		Libro libro = new Libro();
+		libro.setAño(2005);
+		libro.setEditorial("planeta");
+		libro.setNombre("Frutos de su tiempo");
+		libro.setTipo(LibroTipo.ENSAYO);
 		
+		libro.setEstado(estadoCopia.BIBLIOTECA);
+		
+		libro.setAutor(autor);
+		
+		for (int i=15;i<27;i++) {
+			libro.setId((long) i);
+			b.pushCopia(libro);
+		}
+
 		b.pushLectores(l);
 		b.pushLectores(l2);
 	}
 
 	@Test
-	final void testDevolver() throws ParseException {
+	final void testDevolver() throws ParseException, PrestamoExeption {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		
 		Date pas = dateFormat.parse("15-03-2021");
@@ -83,11 +103,9 @@ class LectorTest {
 			Lector lect = b.obtenerLector(l.getnSocio());
 			
 			try {
-				lect.devolver(0, new Date());
+				lect.devolver(lect.getPrestamos().get(0), new Date());
 			} catch (ParseException e) {
 				fail("Fecha mal formada");
-			}catch (NullPointerException e) {
-				fail("indice de prestamos inexistente");
 			}
 		} catch (LectorIdException e) {
 			fail("Id lector no existe");
@@ -130,7 +148,8 @@ class LectorTest {
 	}
 
 	@Test
-	final void testPrestarConMulta() {
+	final void testPrestarConMulta() throws PrestamoExeption, LectorExcedeAlquileresException, CopiaYaAlquiladaException {
+		
 		try {
 			b.alquilar(l.getnSocio(),b.obtenerCopia(16));
 		} catch (ParseException e) {
@@ -151,16 +170,16 @@ class LectorTest {
 			try {
 				pas = dateFormat.parse("15-03-2021");
 				
-				b.regresar(lect.getnSocio(), 0, pas);
+				b.regresar(lect.getnSocio(), lect.getPrestamos().get(0), pas);
 				
-				
+				b.alquilar(l.getnSocio(),b.obtenerCopia(16));
 				if(lect.prestar()) {
 					fail("Deja alquilar a pesar de estar multado");
 				}
 			} catch (ParseException e) {
 				fail("Fecha mal formada");
-			}catch (NullPointerException e) {
-				fail("indice de prestamos inexistente");
+			}catch (LectorMultaException e) {
+				fail("Lector multado");
 			}
 		} catch (LectorIdException e) {
 			fail("Id lector no existe");
@@ -168,7 +187,7 @@ class LectorTest {
 	}
 	
 	@Test
-	final void testPrestarConExcesoPrestamos() {
+	final void testPrestarConExcesoPrestamos() throws ParseException, LectorMultaException, CopiaYaAlquiladaException {
 		try {
 			b.alquilar(l.getnSocio(),b.obtenerCopia(16));
 			b.alquilar(l.getnSocio(),b.obtenerCopia(17));
@@ -194,6 +213,9 @@ class LectorTest {
 				if(lect.prestar()) {
 					fail("Deja alquilar a pesar de estar excedido en prestamos");
 				}
+				b.alquilar(l.getnSocio(),b.obtenerCopia(18));
+			}catch (LectorExcedeAlquileresException e) {
+				fail("Lector exede alquileres permitidos");
 			}catch (NullPointerException e) {
 				fail("indice de prestamos inexistente");
 			}

@@ -56,8 +56,6 @@ public class Libro extends Copia implements Serializable{
 		super();
 	}
 	
-
-
 	public Autor getAutor() {
 		return autor;
 	}
@@ -97,19 +95,29 @@ public class Libro extends Copia implements Serializable{
 	public Libro getLibro() {
 		return this;
 	}
+	
+	
+	
 
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + año;
-		result = prime * result + ((editorial == null) ? 0 : editorial.hashCode());
+		result = prime * result + ((autor == null) ? 0 : autor.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
 		return result;
 	}
-	
+
+
+
+	public boolean equals(Libro obj) {
+
+		if(this.getNombre().equals(obj.getNombre()) && autor.getNombreAutor().equals(obj.autor.getNombreAutor())) {
+			return true;
+		}
+		 return false;
+	}
 
 
 	public String stringLibro() {
