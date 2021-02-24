@@ -115,6 +115,7 @@ public class Test {
 		for ( Multa m : b.getMultas()) {
 			System.out.println(m.toString()+"\n");
 		}
+		2021-02-23T00:00:00
 		http://localhost:8080/BibliotecaServices?wsdl
 
 	**/

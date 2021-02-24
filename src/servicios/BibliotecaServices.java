@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import jakarta.jws.WebService;
+import mavenProyecto.Autor;
 import mavenProyecto.Biblioteca;
 import mavenProyecto.Copia;
 import mavenProyecto.Lector;
 import mavenProyecto.LectorDTO;
 import mavenProyecto.Libro;
 import mavenProyecto.estadoCopia;
+import persistencia.AutorDAO;
 import persistencia.BibliotecaDAO;
 import persistencia.CopiaDAO;
 import persistencia.LectorDAO;
@@ -64,6 +66,12 @@ public class BibliotecaServices {
 		aux.setNombre(l.getNombre());
 		aux.setTelefono(l.getTelefono());
 		ldao.agregarLector(aux);
+	}
+	
+	@WebMethod(operationName="agregarAutorWS")
+	public void agregarAutor(@WebParam(name="autor")Autor l) {
+		AutorDAO dao = new AutorDAO();
+		dao.agregarAutor(l);
 	}
 
 
