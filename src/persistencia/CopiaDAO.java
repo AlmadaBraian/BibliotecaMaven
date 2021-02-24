@@ -9,6 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import mavenProyecto.Autor;
 import mavenProyecto.Copia;
 import mavenProyecto.Libro;
 
@@ -42,16 +43,11 @@ public class CopiaDAO {
 	}
 	
 	public void agregarCopia(Libro c) {
-		boolean check = false;
-		if(c.getEditorial()==null && c.getNombre()==null) {
-			check=true;
-		}
-		if (check==false) {
-			tran.begin();
-			em.persist(c);
-			tran.commit();
-			
-		}
+
+		tran.begin();
+		em.persist(c);
+		tran.commit();
+
 		eliminarNulos();
 
 	}

@@ -33,7 +33,7 @@ public class Autor implements Serializable {
 	
 	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	@Column(name="autor_id")@Id@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private long id;
 	@Column
 	private String nombreAutor;
 	@Column
@@ -70,7 +70,7 @@ public class Autor implements Serializable {
 		this.obras.add(libro);
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
