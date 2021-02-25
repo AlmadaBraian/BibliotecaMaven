@@ -155,7 +155,7 @@ class LectorTest {
 		} catch (ParseException e) {
 			fail("Fecha mal formada");
 		} catch (LectorMultaException e) {
-			fail("Lector multado");
+			
 		} catch (LectorIdException e) {
 			fail("Id lector no existe");
 		} catch (LectorExcedeAlquileresException e) {
@@ -179,7 +179,7 @@ class LectorTest {
 			} catch (ParseException e) {
 				fail("Fecha mal formada");
 			}catch (LectorMultaException e) {
-				fail("Lector multado");
+				
 			}
 		} catch (LectorIdException e) {
 			fail("Id lector no existe");
@@ -200,7 +200,7 @@ class LectorTest {
 		} catch (LectorIdException e) {
 			fail("Id lector no existe");
 		} catch (LectorExcedeAlquileresException e) {
-			fail("Maximo alquileres alcanzado");
+			
 		} catch (CopiaYaAlquiladaException e) {
 			fail("Copia ya alquilada");
 		}
@@ -215,7 +215,7 @@ class LectorTest {
 				}
 				b.alquilar(l,b.obtenerCopia(18));
 			}catch (LectorExcedeAlquileresException e) {
-				fail("Lector exede alquileres permitidos");
+
 			}catch (NullPointerException e) {
 				fail("indice de prestamos inexistente");
 			}

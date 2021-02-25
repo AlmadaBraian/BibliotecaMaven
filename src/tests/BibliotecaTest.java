@@ -43,9 +43,9 @@ class BibliotecaTest {
 		libro.setAño(2005);
 		libro.setEditorial("planeta");
 		libro.setNombre("Frutos de su tiempo");
-		//libro.setTipo("ENSAYO");
+		libro.setTipo(LibroTipo.ENSAYO);
 		
-		//libro.setEstado("BIBLIOTECA");
+		libro.setEstado(estadoCopia.BIBLIOTECA);
 		
 		libro.setAutor(autor);
 		
@@ -57,9 +57,9 @@ class BibliotecaTest {
 		libro2.setAño(2005);
 		libro2.setEditorial("planeta");
 		libro2.setNombre("Frutos de su tiempo");
-		//libro2.setTipo("ENSAYO");
+		libro2.setTipo(LibroTipo.ENSAYO);
 		
-		//libro2.setEstado("BIBLIOTECA");
+		libro2.setEstado(estadoCopia.BIBLIOTECA);
 		
 		libro2.setAutor(autor);
 		
@@ -71,9 +71,9 @@ class BibliotecaTest {
 		libro3.setAño(2005);
 		libro3.setEditorial("planeta");
 		libro3.setNombre("Frutos de su tiempo");
-		//libro3.setTipo("ENSAYO");
+		libro3.setTipo(LibroTipo.ENSAYO);
 		
-		//libro3.setEstado("BIBLIOTECA");
+		libro3.setEstado(estadoCopia.BIBLIOTECA);
 		
 		libro3.setAutor(autor);
 		
@@ -85,9 +85,9 @@ class BibliotecaTest {
 		libro4.setAño(2005);
 		libro4.setEditorial("planeta");
 		libro4.setNombre("Frutos de su tiempo");
-		//libro4.setTipo("ENSAYO");
+		libro4.setTipo(LibroTipo.ENSAYO);
 		
-		//libro4.setEstado("BIBLIOTECA");
+		libro4.setEstado(estadoCopia.BIBLIOTECA);
 		
 		libro4.setAutor(autor);
 		
@@ -117,7 +117,6 @@ class BibliotecaTest {
 			
 			fail("Error de test - id lector formada");
 		}catch (LectorExcedeAlquileresException e) {
-			fail("alquiler maximo alcanzado");
 			
 		}
 
@@ -174,12 +173,14 @@ class BibliotecaTest {
 		} catch (ParseException e) {
 			fail("fecha mal formada");
 		}catch ( LectorMultaException e) {
-			fail("Lector multado");
+			
 		}catch(LectorIdException e) {
 			fail("id lector no valida");
 		}catch (LectorExcedeAlquileresException e) {
 			fail("alquiler maximo alcanzado");
 			
+		}catch(CopiaYaAlquiladaException e){
+			fail("alquiler maximo alcanzado");
 		}
 	}
     
@@ -208,7 +209,7 @@ class BibliotecaTest {
 			fail(e);
 			
 		}catch (CopiaYaAlquiladaException e) {
-			fail("Copia ya alquilada");
+			
 		}
 		
 		try {
@@ -230,7 +231,6 @@ class BibliotecaTest {
 			fail(e);
 			
 		}catch (CopiaYaAlquiladaException e) {
-			fail("Copia ya alquilada");
 		}
     }
        

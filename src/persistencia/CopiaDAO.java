@@ -43,7 +43,7 @@ public class CopiaDAO {
 	}
 	
 	public void agregarCopia(Libro c) {
-
+		
 		tran.begin();
 		em.persist(c);
 		tran.commit();

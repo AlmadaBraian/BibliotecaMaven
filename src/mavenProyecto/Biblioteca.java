@@ -183,7 +183,7 @@ public class Biblioteca <T>{
 			
 			if (a != null) {
 
-				if (a.getPrestamos().size()>=3){
+				if (a.getPrestamos().size()>3){
 					
 					throw new LectorExcedeAlquileresException("El lector "+ a.getNombre() + " ah excedido el maximo de alquileres");
 					
